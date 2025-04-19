@@ -1,26 +1,13 @@
-version: '3.8'
-
 services:
   main-db:
-    image: postgres:latest
+    image: postgres
     ports:
-      - "5432:5432"
+      - 5432:5432
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
     volumes:
       - main-db:/var/lib/postgresql/data
-
-  nextjs-app:
-    build:
-      context: .
-    ports:
-      - "3000:3000"
-    depends_on:
-      - main-db
-    environment:
-      DATABASE_URL: "postgresql://postgres:postgres@main-db:5432/postgres"
-
 volumes:
   main-db:
