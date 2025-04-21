@@ -20,9 +20,7 @@ export function useActionState<State, InitialState, Payload>(
   isPending: boolean,
 ];
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function useActionState(
-  action: any,
-  initialState: any,
+export function useActionState(  action: any,  initialState: any,
   permalink?: string,
 ) {
   return useActionStateReact(action, initialState, permalink);
