@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Игнорирование файла page.tsx
+/src/app/test/page.ts
