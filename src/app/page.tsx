@@ -1,8 +1,4 @@
-// 'use client'
-
-import { StoriesList } from "@/features/story";
-import { CloudinaryGallery, PostsList } from "@/features/post";
-import { Header } from "@/shared/ui/header";
+import { CloudinaryGallery } from "@/features/post";
 
 export default function Home() {
   return (

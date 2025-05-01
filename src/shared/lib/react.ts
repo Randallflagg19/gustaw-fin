@@ -19,11 +19,11 @@ export function useActionState<State, InitialState, Payload>(
   dispatch: (payload: Payload) => void,
   isPending: boolean,
 ];
+// prettier-ignore
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function useActionState(
-  action: any,
-  initialState: any,
+export function useActionState(action: any, initialState: any,
   permalink?: string,
-) {
+)
+{
   return useActionStateReact(action, initialState, permalink);
 }
