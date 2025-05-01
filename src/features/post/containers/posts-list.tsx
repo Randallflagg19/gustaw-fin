@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { JSX, useState } from "react";
 import { Button } from "@/shared/ui/button";
 import { Post } from "@/features/post/ui/post";

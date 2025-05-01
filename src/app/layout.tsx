@@ -21,11 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    <body
-      className={`${poetsenOne.variable} font-sans antialiased dark min-h-screen flex flex-col grow`}
-    >
-    {children}
-    </body>
+      <body
+        className={`${poetsenOne.variable} font-sans antialiased dark min-h-screen flex flex-col grow`}
+      >
+        {children}
+      </body>
     </html>
   );
 }
