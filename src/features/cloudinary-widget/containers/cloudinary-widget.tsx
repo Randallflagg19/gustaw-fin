@@ -4,7 +4,7 @@ import { JSX, useState } from "react";
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 import { CldImage } from "next-cloudinary";
 
-export const CloudinaryGallery = (): JSX.Element => {
+export const CloudinaryWidget = (): JSX.Element => {
   const [imageId, setImageId] = useState("");
 
   return (
@@ -20,6 +20,7 @@ export const CloudinaryGallery = (): JSX.Element => {
           return <button onClick={() => open()}>Upload an Image</button>;
         }}
       </CldUploadWidget>
+
       {imageId && (
         <CldImage
           width="400"
@@ -32,3 +33,4 @@ export const CloudinaryGallery = (): JSX.Element => {
     </>
   );
 };
+//23 16
