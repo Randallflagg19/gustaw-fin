@@ -1,15 +1,48 @@
 "use client";
 
-import { CldImage, type CldImageProps } from "next-cloudinary";
+import { CldImage } from "next-cloudinary";
 
-// Описываем наши пропы:
-// — все пропы CldImageProps, кроме `src`
-// — плюс наш строковый public_id из облака
-type Props = Omit<CldImageProps, "src"> & {
-  public_id: string;
-};
-
-export function CloudinaryImage({ public_id, ...rest }: Props) {
-  // передаём public_id в src, остальные опции (width, height, alt и т.д.) — как есть
-  return <CldImage src={public_id} {...rest} />;
+export function CloudinaryImage(props: any) {
+  return <CldImage {...props} />;
 }
+// "use client";
+//
+// import { CldImage } from "next-cloudinary";
+// import { Heart } from "@/shared/ui/icons/heart";
+// import { FullHeart } from "@/shared/ui/icons/full-heart";
+// import { useState, useTransition } from "react";
+// import { setAsFavoriteAction } from "@/features/gallery/actions";
+// import { SearchResult } from "@/features/gallery/containers/gallery";
+//
+// export function CloudinaryImage(props: any & { imageData: SearchResult }) {
+//   const [transition, startTransition] = useTransition();
+//
+//   const { imageData } = props;
+//
+//   const isFavorited = imageData.tags.includes("favorite");
+//   return (
+//     <div className="relative">
+//       <CldImage {...props} src={imageData.public_id} />
+//
+//       {isFavorited ? (
+//         <FullHeart
+//           onClick={() => {
+//             startTransition(() => {
+//               setAsFavoriteAction(imageData.public_id, false);
+//             });
+//           }}
+//           className="absolute top-2 right-2 hover:text-white text-red-500 cursor-pointer"
+//         />
+//       ) : (
+//         <Heart
+//           onClick={() => {
+//             startTransition(() => {
+//               setAsFavoriteAction(imageData.public_id, true);
+//             });
+//           }}
+//           className="absolute top-2 right-2 hover:text-red-500 cursor-pointer"
+//         />
+//       )}
+//     </div>
+//   );
+// }
