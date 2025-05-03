@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // experimental: {
-  //   serverActions: true,
-  // },
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
+  // experimental: { serverActions: {} },
 };
 
 export default nextConfig;
