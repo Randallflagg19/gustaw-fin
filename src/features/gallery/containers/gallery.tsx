@@ -10,7 +10,7 @@ export async function Gallery() {
   const results = (await cloudinary.v2.search
     .expression("resource_type:image")
     .sort_by("created_at", "desc")
-    .max_results(10)
+    .max_results(30)
     .execute()) as { resources: SearchResult[] };
 
   return (
