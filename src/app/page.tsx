@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { Gallery } from "@/features/gallery";
 import { Header } from "@/shared/ui/header";
 
