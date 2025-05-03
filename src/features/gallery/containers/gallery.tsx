@@ -10,11 +10,9 @@ export async function Gallery() {
   const results = (await cloudinary.v2.search
     .expression("resource_type:image")
     .sort_by("created_at", "desc")
-    .max_results(30)
+    .max_results(5)
     // .with_field("tags")
     .execute()) as { resources: SearchResult[] };
-
-  console.log("results", results);
 
   return (
     <section className="w-full">

@@ -1,22 +1,20 @@
 "use client";
 
-import { JSX, useState } from "react";
-import {
-  CldImage,
-  CldUploadWidget,
-  CloudinaryUploadWidgetInfo,
-} from "next-cloudinary";
+import { JSX } from "react";
+import { useRouter } from "next/navigation";
+import { CldUploadWidget } from "next-cloudinary";
 import { Button } from "@/shared/ui/button";
 import { UploadIcon } from "@/shared/ui/icons/upload";
 
 export const UploadButton = (): JSX.Element => {
-  // const [imageId, setImageId] = useState("");
+  const router = useRouter();
   return (
     <CldUploadWidget
       uploadPreset="rk3q1ykf"
-      onSuccess={(result) => {
-        // const info = result.info as CloudinaryUploadWidgetInfo;
-        // setImageId(info.public_id);
+      onSuccess={() => {
+        setTimeout(() => {
+          router.refresh();
+        }, 3000);
       }}
     >
       {({ open }) => {
@@ -28,14 +26,5 @@ export const UploadButton = (): JSX.Element => {
         );
       }}
     </CldUploadWidget>
-    // {imageId && (
-    //   <CldImage
-    //     width="400"
-    //     height="300"
-    //     src={imageId}
-    //     sizes="100vw"
-    //     alt="Description of my image"
-    //   />
-    // )}
   );
 };
