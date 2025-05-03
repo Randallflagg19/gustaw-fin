@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poetsenOne.variable} font-sans antialiased dark min-h-screen flex flex-col grow`}
+        className={`${poetsenOne.variable} bg-[url('/images/bg.png')] bg-repeat bg-fixed font-sans antialiased dark min-h-screen flex flex-col grow`}
       >
         {children}
       </body>
