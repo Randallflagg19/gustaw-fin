@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import cloudinary from "cloudinary";
 import { UploadButton } from "./upload-button";
 import { CloudinaryImage } from "./cloudinary-image";
