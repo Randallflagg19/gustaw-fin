@@ -9,7 +9,7 @@ export const Header = () => {
   return (
     <header className="max-w-5xl mx-auto px-4 py-6 flex items-start justify-between">
       <h1 className="flex-1 text-3xl sm:text-4xl md:text-5xl font-bold text-center sm:text-left">
-        Этот сайт посвящён самому важному существу в этой галактике.
+        Этот сайт посвящён самому важному существу в галактике.
       </h1>
 
       <Link href="/sign-up">
