@@ -7,21 +7,20 @@ import { cn } from "@/shared/lib/css";
 
 export const Header = () => {
   return (
-    <header className="relative w-full">
-      <div className="max-w-5xl mx-auto px-4 py-6 flex items-center justify-center">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center">
-          Этот сайт посвящён самому важному существу в этой галактике.
-        </h1>
-      </div>
-      <Link href="/sign-up" passHref>
+    <header className="max-w-5xl mx-auto px-4 py-6 flex items-start justify-between">
+      <h1 className="flex-1 text-3xl sm:text-4xl md:text-5xl font-bold text-center sm:text-left">
+        Этот сайт посвящён самому важному существу в этой галактике.
+      </h1>
+
+      <Link href="/sign-up">
         <Button
           asChild
           variant="ghost"
           size="icon"
-          className={cn("absolute top-4 right-4", "p-2 sm:p-3")}
+          className={cn("self-start mt-1 p-2 sm:p-3")}
           aria-label="Login"
         >
-          <PawPrint className="w-14 h-14 text-gray-800 dark:text-gray-200" />
+          <PawPrint className="w-12 h-12 sm:w-14 sm:h-14 text-gray-800 dark:text-gray-200" />
         </Button>
       </Link>
     </header>
