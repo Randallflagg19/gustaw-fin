@@ -1,6 +1,6 @@
 import { ComponentProps } from "react";
 
-export function Heart(props: ComponentProps<"div">) {
+export function EmptyHeart(props: ComponentProps<"div">) {
   return (
     <div {...props}>
       <svg
