@@ -13,7 +13,7 @@ type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
 };
 
 export function CloudinaryImage({ imageData, ...rest }: CloudinaryImageProps) {
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const isFavorite = imageData.tags.includes("favorite");
 
   return (

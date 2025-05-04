@@ -4,7 +4,6 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["res.cloudinary.com"],
   },
-  experimental: { serverActions: true },
 };
 
 export default nextConfig;
