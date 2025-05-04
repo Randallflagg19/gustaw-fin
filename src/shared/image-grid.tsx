@@ -10,7 +10,7 @@ export function ImageGrid({
   images: SearchResult[];
   getImage: (imageData: SearchResult) => ReactNode;
 }) {
-  const MAX_COLUMNS = 4;
+  const MAX_COLUMNS = 3;
 
   function getColumns(colIndex: number) {
     return images.filter((results, index) => index % MAX_COLUMNS === colIndex);
