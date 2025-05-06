@@ -5,6 +5,7 @@ export type SearchResult = {
   tags: string[];
   height: string;
   width: string;
+  secure_url: string;
 };
 
 export async function getCloudinaryPhotos(
@@ -19,7 +20,7 @@ export async function getCloudinaryPhotos(
 
   const response = await cloudinary.v2.search
     .expression(expression)
-    .sort_by("created_at", "asc")
+    .sort_by("created_at", "desc")
     .max_results(maxResults)
     .with_field("tags")
     .execute();

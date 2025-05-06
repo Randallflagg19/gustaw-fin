@@ -8,7 +8,7 @@ export function ImageGrid({
   getImage,
 }: {
   images: SearchResult[];
-  getImage: (imageData: SearchResult) => ReactNode;
+  getImage: (imageData: SearchResult, index: number) => ReactNode;
 }) {
   const MAX_COLUMNS = 3;
 

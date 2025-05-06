@@ -6,6 +6,7 @@ import { FullHeart } from "@/shared/ui/icons/full-heart";
 import { useState, useTransition } from "react";
 import { setAsFavoriteAction } from "@/features/gallery/actions";
 import { SearchResult } from "@/features/gallery/api/getCloudinaryPhotos";
+import { ImageMenu } from "@/features/gallery/containers/image-menu";
 
 type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
   imageData: SearchResult;
@@ -37,7 +38,7 @@ export function CloudinaryImage({
               setAsFavoriteAction(imageData.public_id, false);
             });
           }}
-          className="absolute top-2 right-2 hover:text-white text-red-500 cursor-pointer z-10"
+          className="absolute top-2 left-2 hover:text-white text-red-500 cursor-pointer z-10"
         />
       ) : (
         <EmptyHeart
@@ -47,9 +48,10 @@ export function CloudinaryImage({
               setAsFavoriteAction(imageData.public_id, true);
             });
           }}
-          className="absolute top-2 right-2 hover:text-red-500 cursor-pointer z-10"
+          className="absolute top-2 left-2 hover:text-red-500 cursor-pointer z-10"
         />
       )}
+      <ImageMenu image={imageData} />
     </div>
   );
 }

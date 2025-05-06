@@ -33,4 +33,3 @@ export const CloudinaryWidget = (): JSX.Element => {
     </>
   );
 };
-//23 16

@@ -1,15 +1,14 @@
 "use client";
 
-import { SearchResult } from "@/features/gallery/api/getCloudinaryPhotos";
 import { ImageGrid } from "@/shared/image-grid";
 import { CloudinaryImage } from "@/features/gallery/containers/cloudinary-image";
-import React from "react";
+import { SearchResult } from "@/features/gallery/api/getCloudinaryPhotos";
 
-export function GalleryGrid({ images }: { images: SearchResult[] }) {
+export function AlbumGrid({ images }: { images: SearchResult[] }) {
   return (
     <ImageGrid
       images={images}
-      getImage={(imageData: SearchResult, index: number) => {
+      getImage={(imageData: SearchResult) => {
         return (
           <CloudinaryImage
             key={imageData.public_id}
@@ -17,7 +16,6 @@ export function GalleryGrid({ images }: { images: SearchResult[] }) {
             width="300"
             height="400"
             alt="Gallery image"
-            priority={index < 6}
           />
         );
       }}
