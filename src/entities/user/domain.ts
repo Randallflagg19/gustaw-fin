@@ -23,3 +23,4 @@ export const userToSession = (
     expiredAt,
   };
 };
+//расширить чтобы добавить роль

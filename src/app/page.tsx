@@ -1,7 +1,7 @@
-export const dynamic = "force-dynamic";
-
 import { Gallery } from "@/features/gallery";
 import { Header } from "@/shared/ui/header";
+
+export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (

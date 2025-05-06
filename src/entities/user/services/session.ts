@@ -64,4 +64,9 @@ const verifySession = async () => {
   return { isAuth: true, session: session.value };
 };
 
-export const sessionService = { addSession, deleteSession, verifySession };
+export const sessionService = {
+  addSession,
+  decrypt,
+  deleteSession,
+  verifySession,
+};
