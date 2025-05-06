@@ -1,4 +1,4 @@
-import { getCloudinaryPhotos } from "@/features/gallery/api/getCloudinaryPhotos";
+import { getCloudinaryPhotos } from "@/features/gallery/services/getCloudinaryPhotos";
 import { ForceRefresh } from "@/shared/force-refresh";
 import FavoritesList from "@/app/favorite/favorites-list";
 
@@ -11,7 +11,7 @@ export default async function Favorite() {
       <section>
         <div className="flex flex-col gap-8">
           <div className="flex justify-center">
-            <h1 className="text-4xl font-bold mt-8"> Favorite Images</h1>
+            <h1 className="text-4xl font-bold mt-8">Понравились</h1>
           </div>
           <FavoritesList initialResources={results} />
         </div>

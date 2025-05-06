@@ -1,6 +1,6 @@
 "use client";
 
-import { SearchResult } from "@/features/gallery/api/getCloudinaryPhotos";
+import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
 import { ImageGrid } from "@/shared/image-grid";
 import { CloudinaryImage } from "@/features/gallery/containers/cloudinary-image";
 import React from "react";

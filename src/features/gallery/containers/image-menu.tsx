@@ -8,8 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
-import { AddToAlbum } from "@/features/gallery/containers/add-to-album";
-import { SearchResult } from "@/features/gallery/api/getCloudinaryPhotos";
+import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
 import { useState } from "react";
 
 export function ImageMenu({ image }: { image: SearchResult }) {
@@ -23,9 +22,6 @@ export function ImageMenu({ image }: { image: SearchResult }) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-40">
-          <DropdownMenuItem asChild onClick={() => setOpen(true)}>
-            <AddToAlbum image={image} onClose={() => setOpen(false)} />
-          </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Button asChild variant="ghost" className="cursor-pointer">
               <Link

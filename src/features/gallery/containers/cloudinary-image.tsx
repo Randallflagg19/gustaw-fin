@@ -4,8 +4,8 @@ import { CldImage, CldImageProps } from "next-cloudinary";
 import { EmptyHeart } from "@/shared/ui/icons/empty-heart";
 import { FullHeart } from "@/shared/ui/icons/full-heart";
 import { useState, useTransition } from "react";
-import { setAsFavoriteAction } from "@/features/gallery/actions";
-import { SearchResult } from "@/features/gallery/api/getCloudinaryPhotos";
+import { setAsFavoriteAction } from "@/features/gallery/actions/actions";
+import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
 import { ImageMenu } from "@/features/gallery/containers/image-menu";
 
 type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
@@ -22,12 +22,13 @@ export function CloudinaryImage({
   const [isFavorite, setIsFavorite] = useState<boolean>(
     imageData.tags.includes("favorite"),
   );
+
   return (
     <div className="relative">
       <CldImage
         {...rest}
         src={imageData.public_id}
-        className="w-full h-auto object-cover block"
+        className="w-full h-auto object-cover block  rounded-lg"
       />
       {isFavorite ? (
         <FullHeart

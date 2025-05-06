@@ -1,6 +1,6 @@
 "use client";
 
-import { SearchResult } from "@/features/gallery/api/getCloudinaryPhotos";
+import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
 import React, { ReactNode } from "react";
 
 export function ImageGrid({
@@ -10,17 +10,20 @@ export function ImageGrid({
   images: SearchResult[];
   getImage: (imageData: SearchResult, index: number) => ReactNode;
 }) {
-  const MAX_COLUMNS = 3;
-
-  function getColumns(colIndex: number) {
-    return images.filter((results, index) => index % MAX_COLUMNS === colIndex);
-  }
-
   return (
-    <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mx-auto px-4 max-w-[1280px]">
-      {[getColumns(0), getColumns(1), getColumns(2)].map((column, index) => (
-        <div key={index} className="flex flex-col gap-4">
-          {column.map(getImage)}
+    <div
+      className="pt-8
+                    columns-1
+                    sm:columns-2
+                    md:columns-3
+                    gap-4
+                    mx-auto
+                    px-4
+                    max-w-[1280px]"
+    >
+      {images.map((img, i) => (
+        <div key={img.public_id} className="break-inside-avoid mb-4">
+          {getImage(img, i)}
         </div>
       ))}
     </div>

@@ -1,7 +1,7 @@
-import { UploadButton } from "./upload-button";
-import { getCloudinaryPhotos } from "@/features/gallery/api/getCloudinaryPhotos";
+import { UploadButton } from "@/features/gallery/containers/upload-button";
+import { getCloudinaryPhotos } from "@/features/gallery/services/getCloudinaryPhotos";
 import React from "react";
-import { GalleryGrid } from "@/features/gallery/gallery-grid";
+import { GalleryGrid } from "@/features/gallery/ui/gallery-grid";
 
 export async function Gallery() {
   const results = await getCloudinaryPhotos();
@@ -13,7 +13,6 @@ export async function Gallery() {
           <UploadButton />
         </div>
       </div>
-
       <GalleryGrid images={results} />
     </section>
   );

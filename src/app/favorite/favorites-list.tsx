@@ -1,7 +1,7 @@
 "use client";
 
 import { CloudinaryImage } from "@/features/gallery/containers/cloudinary-image";
-import { SearchResult } from "@/features/gallery/api/getCloudinaryPhotos";
+import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
 import { useEffect, useState } from "react";
 import { ImageGrid } from "@/shared/image-grid";
 

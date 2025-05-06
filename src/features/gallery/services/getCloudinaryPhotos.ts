@@ -25,6 +25,5 @@ export async function getCloudinaryPhotos(
     .with_field("tags")
     .execute();
 
-  // Возвращаем только массив ресурсов (фотографий)
   return response.resources as SearchResult[];
 }
