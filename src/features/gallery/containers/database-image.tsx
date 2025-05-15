@@ -19,8 +19,10 @@ export function DatabaseImage({ imageData, onLike }: DatabaseImageProps) {
       <img
         src={imageData.mediaUrl || ""}
         alt={imageData.title || "Photo"}
+        loading="lazy"
         className="w-full h-auto object-cover block rounded-lg"
       />
+
       {isFavorite ? (
         <FullHeart
           onClick={() => {
