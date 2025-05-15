@@ -7,10 +7,10 @@ import { PostResult } from "@/features/gallery/services/getDataBasePhotos";
 
 type DatabaseImageProps = {
   imageData: PostResult;
-  onUnheart?: (image: PostResult) => void;
+  onLike?: (image: PostResult) => void;
 };
 
-export function DatabaseImage({ imageData, onUnheart }: DatabaseImageProps) {
+export function DatabaseImage({ imageData, onLike }: DatabaseImageProps) {
   const [, startTransition] = useTransition();
   const [isFavorite, setIsFavorite] = useState<boolean>(false); // ← можешь заменить на реальный стейт позже
 
@@ -24,7 +24,7 @@ export function DatabaseImage({ imageData, onUnheart }: DatabaseImageProps) {
       {isFavorite ? (
         <FullHeart
           onClick={() => {
-            onUnheart?.(imageData);
+            onLike?.(imageData);
             setIsFavorite(false);
             startTransition(() => {
               // await toggleFavoriteAction(imageData.id, false)

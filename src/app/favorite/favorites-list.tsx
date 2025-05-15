@@ -1,6 +1,5 @@
 "use client";
 
-import { CloudinaryImage } from "@/features/gallery/containers/cloudinary-image";
 import { useEffect, useState } from "react";
 import { ImageGrid } from "@/shared/image-grid";
 import { PostResult } from "@/features/gallery/services/getDataBasePhotos";
@@ -24,10 +23,10 @@ export default function FavoritesList({
         <DatabaseImage
           key={imageData.id}
           imageData={imageData}
-          onUnheart={(unheartedResource) => {
+          onLike={(likedResource) => {
             setResources((currentResources) =>
               currentResources.filter(
-                (resource) => resource.id !== unheartedResource.id,
+                (resource) => resource.id !== likedResource.id,
               ),
             );
           }}
