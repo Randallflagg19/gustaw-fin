@@ -40,7 +40,6 @@ model User {
   login        String
   passwordHash String
   salt         String    @default("")
-  posts        Post[]
   comments     Comment[]
   likes        Like[]
   bookings     Booking[]
@@ -68,19 +67,15 @@ model VerificationCode {
 }
 
 model Post {
-  id        String    @id @default(uuid())
-  title     String
+  id        String     @id @default(uuid())
+  title     String?
   content   String?
-  mediaUrl  String
-  mediaType MediaType
-  author    User      @relation(fields: [authorId], references: [id])
-  authorId  String
+  mediaUrl  String?
+  mediaType MediaType?
   comments  Comment[]
   likes     Like[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-
-  @@index([authorId]) // быстрый поиск всех постов автора
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model Comment {

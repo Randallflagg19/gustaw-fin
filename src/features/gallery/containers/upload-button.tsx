@@ -11,10 +11,22 @@ export const UploadButton = (): JSX.Element => {
   return (
     <CldUploadWidget
       uploadPreset="rk3q1ykf"
-      onSuccess={() => {
-        setTimeout(() => {
-          router.refresh();
-        }, 3000);
+      onSuccess={({ info }) => {
+        fetch("/api/posts/create", {
+          method: "POST",
+          body: JSON.stringify(info),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              router.refresh();
+            } else {
+              console.error("Не удалось создать пост");
+            }
+          });
       }}
     >
       {({ open }) => {

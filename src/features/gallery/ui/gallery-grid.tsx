@@ -1,25 +1,16 @@
 "use client";
 
-import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
+import { PostResult } from "@/features/gallery/services/getDataBasePhotos";
 import { ImageGrid } from "@/shared/image-grid";
-import { CloudinaryImage } from "@/features/gallery/containers/cloudinary-image";
+import { DatabaseImage } from "@/features/gallery/containers/database-image"; // создай его как я показал выше
 import React from "react";
 
-export function GalleryGrid({ images }: { images: SearchResult[] }) {
+export function GalleryGrid({ images }: { images: PostResult[] }) {
   return (
     <ImageGrid
       images={images}
-      getImage={(imageData: SearchResult, index: number) => {
-        return (
-          <CloudinaryImage
-            key={imageData.public_id}
-            imageData={imageData}
-            width="300"
-            height="400"
-            alt="Gallery image"
-            priority={index < 6}
-          />
-        );
+      getImage={(imageData: PostResult) => {
+        return <DatabaseImage key={imageData.id} imageData={imageData} />;
       }}
     />
   );
