@@ -1,9 +1,9 @@
+import { getCloudinaryPhotos } from "@/features/gallery/services/getCloudinaryPhotos";
 import { ForceRefresh } from "@/shared/force-refresh";
 import FavoritesList from "@/app/favorite/favorites-list";
-import { getDataBasePhotos } from "@/features/gallery/services/getDataBasePhotos";
 
 export default async function Favorite() {
-  const results = await getDataBasePhotos();
+  const results = await getCloudinaryPhotos("tags=favorite");
 
   return (
     <>

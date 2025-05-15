@@ -45,7 +45,6 @@ export function DatabaseImage({ imageData, onLike }: DatabaseImageProps) {
           className="absolute top-2 left-2 hover:text-red-500 cursor-pointer z-10"
         />
       )}
-      {/* Можешь добавить меню если нужно */}
     </div>
   );
 }
