@@ -5,7 +5,7 @@ import { getMe } from "@/entities/user/services/get-me";
 import { getCloudinaryPhotos } from "@/features/gallery/services/getCloudinaryPhotos";
 
 export async function Gallery() {
-  const results = await getCloudinaryPhotos();
+  const photosFromCloud = await getCloudinaryPhotos();
 
   const data = await getMe();
 
@@ -16,7 +16,8 @@ export async function Gallery() {
           {data?.role === "ADMIN" && <UploadButton />}
         </div>
       </div>
-      <GalleryGrid images={results} />
+      {/* тут сетка фоток: компонент сетки и внутри массив*/}
+      <GalleryGrid images={photosFromCloud} />
     </section>
   );
 }

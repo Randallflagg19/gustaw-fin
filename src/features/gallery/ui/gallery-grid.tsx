@@ -11,6 +11,7 @@ export function GalleryGrid({ images }: { images: SearchResult[] }) {
       images={images}
       getImage={(imageData: SearchResult, index: number) => {
         return (
+          // CldImage с сердечком и обработкой
           <CloudinaryImage
             key={imageData.public_id}
             imageData={imageData}

@@ -10,19 +10,16 @@ export type PostResult = {
 };
 
 export async function getDataBasePhotos(): Promise<PostResult[]> {
-  const posts = await prisma.post.findMany({
+  return await prisma.post.findMany({
     orderBy: {
       createdAt: "desc",
     },
     select: {
       id: true,
-      title: true,
       content: true,
       mediaUrl: true,
       mediaType: true,
       createdAt: true,
     },
   });
-
-  return posts;
 }

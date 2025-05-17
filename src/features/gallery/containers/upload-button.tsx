@@ -1,42 +1,43 @@
 "use client";
 
-import { JSX } from "react";
+import { JSX, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { CldUploadWidget } from "next-cloudinary";
 import { Button } from "@/shared/ui/button";
 import { UploadIcon } from "@/shared/ui/icons/upload";
+import { createPostAction } from "@/features/gallery/actions/createPostAction";
+import type { CloudinaryUploadWidgetInfo } from "next-cloudinary";
 
 export const UploadButton = (): JSX.Element => {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
   return (
     <CldUploadWidget
       uploadPreset="rk3q1ykf"
       onSuccess={({ info }) => {
-        fetch("/api/posts/create", {
-          method: "POST",
-          body: JSON.stringify(info),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              router.refresh();
-            } else {
-              console.error("Не удалось создать пост");
-            }
+        const file = info as CloudinaryUploadWidgetInfo;
+
+        startTransition(async () => {
+          const result = await createPostAction({
+            secure_url: file.secure_url,
+            resource_type: file.resource_type,
           });
+
+          if (result.success) {
+            router.refresh();
+          } else {
+            console.error("Не удалось создать пост");
+          }
+        });
       }}
     >
-      {({ open }) => {
-        return (
-          <Button onClick={() => open()}>
-            <UploadIcon />
-            Upload
-          </Button>
-        );
-      }}
+      {({ open }) => (
+        <Button onClick={() => open()}>
+          <UploadIcon />
+          Upload
+        </Button>
+      )}
     </CldUploadWidget>
   );
 };

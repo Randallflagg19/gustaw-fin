@@ -2,6 +2,8 @@ import { UserEntity } from "@/entities/user/domain";
 import { prisma } from "@/shared/lib/db";
 import { Prisma } from "@prisma/client";
 
+// тут мы вносим в бд нового юзера
+
 export function saveUser(user: UserEntity): Promise<UserEntity> {
   return prisma.user.upsert({
     where: {
