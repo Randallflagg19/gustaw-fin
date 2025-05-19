@@ -14,6 +14,7 @@ export const UploadButton = (): JSX.Element => {
 
   return (
     <CldUploadWidget
+      config={{ cloud: { cloudName: "dhnzp0qqr" } }}
       uploadPreset="rk3q1ykf"
       onSuccess={({ info }) => {
         const file = info as CloudinaryUploadWidgetInfo;
