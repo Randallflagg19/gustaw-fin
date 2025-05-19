@@ -9,6 +9,16 @@ export async function savePost(data: {
   });
 }
 
+export async function likePost(data: { postId: string; userId: string }) {
+  return prisma.like.create({
+    data: {
+      post: { connect: { id: data.postId } },
+      user: { connect: { id: data.userId } },
+    },
+  });
+}
+
 export const postRepository = {
   savePost,
+  likePost,
 };

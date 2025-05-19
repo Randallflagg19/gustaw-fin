@@ -6,6 +6,7 @@ export type SearchResult = {
   height: string;
   width: string;
   secure_url: string;
+  id?: string;
 };
 
 export async function getCloudinaryPhotos(

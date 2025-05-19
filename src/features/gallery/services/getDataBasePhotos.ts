@@ -1,25 +1,25 @@
 import { prisma } from "@/shared/lib/db";
 
-export type PostResult = {
-  id: string;
-  title?: string | null;
-  content?: string | null;
-  mediaUrl?: string | null;
-  mediaType?: "IMAGE" | "VIDEO" | "STORY" | null;
-  createdAt: Date;
-};
-
-export async function getDataBasePhotos(): Promise<PostResult[]> {
-  return await prisma.post.findMany({
+export async function getDataBasePhotos() {
+  const posts = await prisma.post.findMany({
+    where: {
+      mediaType: "IMAGE",
+    },
     orderBy: {
       createdAt: "desc",
     },
-    select: {
-      id: true,
-      content: true,
-      mediaUrl: true,
-      mediaType: true,
-      createdAt: true,
+    include: {
+      likes: true, // если нужно знать, сколько лайков
+      comments: true, // опционально
     },
   });
+
+  return posts.map((post) => ({
+    id: post.id,
+    mediaUrl: post.mediaUrl,
+    publicId: post.publicId ?? "", // если может быть null — подстраховаться
+    createdAt: post.createdAt,
+    likesCount: post.likes.length,
+    commentCount: post.comments.length,
+  }));
 }

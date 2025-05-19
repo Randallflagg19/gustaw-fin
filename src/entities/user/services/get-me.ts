@@ -9,13 +9,13 @@ export const getMe = async () => {
   const sessionToken = cookieStore.get("session");
 
   const decodedPayload = await sessionService.decrypt(sessionToken?.value);
-  // нужно сделать так из decodedPayload доставать роль
   if (decodedPayload.type === "right") {
     const user = await prisma.user.findFirst({
       where: {
         id: decodedPayload.value.id,
       },
       select: {
+        id: true,
         login: true,
         role: true,
       },
@@ -24,7 +24,7 @@ export const getMe = async () => {
     if (!user) {
       redirect("/sign-in");
     }
-
+    console.log(user);
     return user;
   }
 };

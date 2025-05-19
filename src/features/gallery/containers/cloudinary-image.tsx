@@ -3,7 +3,7 @@
 import { CldImage, CldImageProps } from "next-cloudinary";
 import { EmptyHeart } from "@/shared/ui/icons/empty-heart";
 import { FullHeart } from "@/shared/ui/icons/full-heart";
-import { useState, useEffect, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { setAsFavoriteAction } from "@/features/gallery/actions/toggleLikeActions";
 import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
 import { ImageMenu } from "@/features/gallery/containers/image-menu";
@@ -30,6 +30,16 @@ export function CloudinaryImage({
     const newFavorite = !isFavorite;
     setIsFavorite(newFavorite);
     onLike?.(imageData, newFavorite);
+
+    console.log(
+      "Toggle like for post ID:",
+      imageData.public_id,
+      "New like state:",
+      newFavorite,
+    );
+
+    console.log("DB ID:", imageData.id);
+
     startTransition(() => {
       setAsFavoriteAction(imageData.public_id, newFavorite);
     });

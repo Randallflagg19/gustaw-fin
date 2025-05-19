@@ -3,10 +3,11 @@ import React from "react";
 import { GalleryGrid } from "@/features/gallery/ui/gallery-grid";
 import { getMe } from "@/entities/user/services/get-me";
 import { getCloudinaryPhotos } from "@/features/gallery/services/getCloudinaryPhotos";
+import { getDataBasePhotos } from "@/features/gallery/services/getDataBasePhotos";
 
 export async function Gallery() {
-  const photosFromCloud = await getCloudinaryPhotos();
-
+  // const photosFromCloud = await getCloudinaryPhotos();
+  const photosFromDb = await getDataBasePhotos();
   const data = await getMe();
 
   return (
@@ -17,7 +18,19 @@ export async function Gallery() {
         </div>
       </div>
       {/* тут сетка фоток: компонент сетки и внутри массив*/}
-      <GalleryGrid images={photosFromCloud} />
+      <GalleryGrid
+        images={photosFromDb.map((photo) => ({
+          public_id: photo.publicId ?? "",
+          tags: [],
+          height: "500", // или можно позже расширить
+          width: "500",
+          secure_url: photo.mediaUrl ?? "",
+          // 👇 необязательно, но можно добавить кастомные поля, если компонент поддерживает
+          id: photo.id,
+          likesCount: photo.likesCount,
+          commentCount: photo.commentCount,
+        }))}
+      />
     </section>
   );
 }
