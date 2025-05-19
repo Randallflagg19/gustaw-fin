@@ -38,8 +38,6 @@ export function CloudinaryImage({
       newFavorite,
     );
 
-    console.log("DB ID:", imageData.id);
-
     startTransition(() => {
       setAsFavoriteAction(imageData.public_id, newFavorite);
     });
