@@ -2,11 +2,9 @@ import { UploadButton } from "@/features/gallery/containers/upload-button";
 import React from "react";
 import { GalleryGrid } from "@/features/gallery/ui/gallery-grid";
 import { getMe } from "@/entities/user/services/get-me";
-import { getCloudinaryPhotos } from "@/features/gallery/services/getCloudinaryPhotos";
 import { getDataBasePhotos } from "@/features/gallery/services/getDataBasePhotos";
 
 export async function Gallery() {
-  // const photosFromCloud = await getCloudinaryPhotos();
   const photosFromDb = await getDataBasePhotos();
   const data = await getMe();
 
