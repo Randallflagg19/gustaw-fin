@@ -1,6 +1,15 @@
 import { prisma } from "@/shared/lib/db";
 
-export async function getDataBasePhotos() {
+export type PostResult = {
+  id: string;
+  mediaUrl: string;
+  publicId: string;
+  createdAt: Date;
+  likesCount: number;
+  commentCount: number;
+};
+
+export async function getDataBasePhotos(): Promise<PostResult[]> {
   const posts = await prisma.post.findMany({
     where: {
       mediaType: "IMAGE",
@@ -9,15 +18,15 @@ export async function getDataBasePhotos() {
       createdAt: "desc",
     },
     include: {
-      likes: true, // если нужно знать, сколько лайков
-      comments: true, // опционально
+      likes: true,
+      comments: true,
     },
   });
 
   return posts.map((post) => ({
     id: post.id,
-    mediaUrl: post.mediaUrl,
-    publicId: post.publicId ?? "", // если может быть null — подстраховаться
+    mediaUrl: post.mediaUrl ?? "",
+    publicId: post.publicId ?? "",
     createdAt: post.createdAt,
     likesCount: post.likes.length,
     commentCount: post.comments.length,

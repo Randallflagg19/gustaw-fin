@@ -18,7 +18,7 @@ export function DatabaseImage({ imageData, onLike }: DatabaseImageProps) {
     <div className="relative">
       <img
         src={imageData.mediaUrl || ""}
-        alt={imageData.title || "Photo"}
+        alt={"Photo"}
         loading="lazy"
         className="w-full h-auto object-cover block rounded-lg"
       />
