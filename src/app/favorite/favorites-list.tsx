@@ -27,7 +27,7 @@ export default function FavoritesList({
             width="300"
             height="400"
             alt="Gallery image"
-            onUnheart={(unheartedResource) => {
+            onLike={(unheartedResource) => {
               setResources((currentResources) =>
                 currentResources.filter(
                   (resource) =>
