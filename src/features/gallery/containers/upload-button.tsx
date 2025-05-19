@@ -23,6 +23,7 @@ export const UploadButton = (): JSX.Element => {
           const result = await createPostAction({
             secure_url: file.secure_url,
             resource_type: file.resource_type,
+            public_id: file.public_id,
           });
 
           if (result.success) {
