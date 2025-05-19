@@ -2,6 +2,7 @@ import { prisma } from "@/shared/lib/db";
 
 export async function savePost(data: {
   mediaUrl: string;
+  publicId: string;
   mediaType: "VIDEO" | "IMAGE";
 }) {
   return prisma.post.create({
