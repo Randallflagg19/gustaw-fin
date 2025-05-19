@@ -10,7 +10,7 @@ import type { CloudinaryUploadWidgetInfo } from "next-cloudinary";
 
 export const UploadButton = (): JSX.Element => {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   return (
     <CldUploadWidget
