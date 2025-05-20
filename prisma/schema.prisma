@@ -97,7 +97,6 @@ model Like {
   userId String
 
   // пост на котором ставят лайк
-  // на каком? Как узнать какой у него айди в бд?
   post   Post   @relation(fields: [postId], references: [id])
   postId String
 
