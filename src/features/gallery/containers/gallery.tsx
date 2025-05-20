@@ -1,20 +1,14 @@
-import { UploadButton } from "@/features/gallery/containers/upload-button";
 import React from "react";
 import { GalleryGrid } from "@/features/gallery/ui/gallery-grid";
-import { getMe } from "@/entities/user/services/get-me";
 import { getDataBasePhotos } from "@/features/gallery/services/getDataBasePhotos";
+import { UploadWrapper } from "@/features/gallery/containers/upload-wrapper";
 
 export async function Gallery() {
   const photosFromDb = await getDataBasePhotos();
-  const data = await getMe();
 
   return (
     <section className="w-full">
-      <div className="flex flex-col gap-8">
-        <div className="flex justify-center">
-          {data?.role === "ADMIN" && <UploadButton />}
-        </div>
-      </div>
+      <UploadWrapper />
       {/* тут сетка фоток: компонент сетки и внутри массив*/}
       <GalleryGrid
         images={photosFromDb.map((photo) => ({

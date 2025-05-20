@@ -9,10 +9,24 @@ import { SubmitButton } from "@/features/auth/ui/submit-button";
 import { ErrorMessage } from "@/features/auth/ui/error-message";
 import { useActionState } from "@/shared/lib/react";
 import { signInAction } from "@/features/auth/actions/sign-in";
-
+import useStore from "@/features/user/user";
+import { redirect } from "next/navigation";
 export function SignInForm() {
+  const setUser = useStore((state) => state.setUser);
+  const wrappedSignIn = async (state: unknown, formData: FormData) => {
+    const result = await signInAction(state, formData);
+    if (result.type === "right") {
+      if (result?.value.user) {
+        setUser(result.value.user);
+      }
+    }
+    return signInAction(state, formData).then(() => {
+      redirect("/");
+    });
+  };
+
   const [formState, action, isPending] = useActionState(
-    signInAction,
+    wrappedSignIn,
     right(undefined),
   );
 

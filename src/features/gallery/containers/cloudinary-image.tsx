@@ -7,6 +7,8 @@ import { useEffect, useState, useTransition } from "react";
 import { setAsFavoriteAction } from "@/features/gallery/actions/toggleLikeActions";
 import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
 import { ImageMenu } from "@/features/gallery/containers/image-menu";
+import { createLikeAction } from "@/features/gallery/actions/toggleDBLikeActions";
+import useStore from "@/features/user/user";
 
 type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
   imageData: SearchResult;
@@ -26,21 +28,45 @@ export function CloudinaryImage({
     setIsFavorite(imageData.tags.includes("favorite"));
   }, [imageData.tags]);
 
+  const { user } = useStore();
+
   const toggleFavorite = () => {
     const newFavorite = !isFavorite;
-    setIsFavorite(newFavorite);
+    setIsFavorite(newFavorite); // можно оставить для мгновенного отклика
     onLike?.(imageData, newFavorite);
 
-    console.log(
-      "Toggle like for post ID:",
-      imageData.public_id,
-      "New like state:",
-      newFavorite,
-    );
-
-    startTransition(() => {
-      setAsFavoriteAction(imageData.public_id, newFavorite);
-    });
+    if (user.id) {
+      createLikeAction(user.id, imageData.public_id)
+        .then((result) => {
+          if (typeof result === "object") {
+            if (result.type === "right") {
+              startTransition(() => {
+                console.log(
+                  "Toggle like for post ID:",
+                  imageData.public_id,
+                  "New like state:",
+                  newFavorite,
+                );
+                setAsFavoriteAction(imageData.public_id, newFavorite);
+              });
+            } else {
+              // Откатить изменение при ошибке
+              setIsFavorite(!newFavorite);
+              onLike?.(imageData, !newFavorite);
+              console.error("Ошибка при создании лайка:", result.error);
+            }
+          }
+        })
+        .catch(() => {
+          // Обработка ошибок сети или других ошибок
+          setIsFavorite(!newFavorite);
+          onLike?.(imageData, !newFavorite);
+          console.error("Ошибка с сервером");
+        });
+    } else {
+      console.warn("Пользователь не авторизован");
+      // Можно оставить состояние как есть или откатить
+    }
   };
 
   return (

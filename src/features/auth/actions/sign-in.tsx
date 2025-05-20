@@ -1,16 +1,25 @@
 "use server";
 
-import { left, mapLeft } from "@/shared/lib/either";
+import { Either, left, mapLeft, right } from "@/shared/lib/either";
 import { z } from "zod";
 import { sessionService, verifyUserPassword } from "@/entities/user/server";
-import { redirect } from "next/navigation";
-
 const formDataSchema = z.object({
   login: z.string().min(3),
   password: z.string().min(3),
 });
 
-export const signInAction = async (state: unknown, formData: FormData) => {
+type SignInSuccess = {
+  user: {
+    id: string;
+    login: string;
+    role: "USER" | "ADMIN";
+  };
+};
+
+export const signInAction = async (
+  state: unknown,
+  formData: FormData,
+): Promise<Either<string, SignInSuccess>> => {
   const data = Object.fromEntries(formData.entries());
 
   const result = formDataSchema.safeParse(data);
@@ -23,8 +32,13 @@ export const signInAction = async (state: unknown, formData: FormData) => {
 
   if (verifiedUserResult.type === "right") {
     await sessionService.addSession(verifiedUserResult.value);
-
-    redirect("/");
+    return right({
+      user: {
+        id: verifiedUserResult.value.id,
+        login: verifiedUserResult.value.login,
+        role: verifiedUserResult.value.role,
+      },
+    });
   }
 
   return mapLeft(verifiedUserResult, (error) => {
