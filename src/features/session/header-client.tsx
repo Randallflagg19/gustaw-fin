@@ -16,7 +16,7 @@ type Props = {
 };
 
 export const HeaderClient = ({ userFromServer }: Props) => {
-  const { user, setUser } = useUserStore();
+  const { setUser } = useUserStore();
 
   useEffect(() => {
     if (userFromServer) {
