@@ -1,9 +1,7 @@
 import { Gallery } from "@/features/gallery";
-import { Header } from "@/shared/ui/header";
+import Header from "@/features/session/header";
 
 export const dynamic = "force-dynamic";
-
-// гетми
 
 export default function Home() {
   return (

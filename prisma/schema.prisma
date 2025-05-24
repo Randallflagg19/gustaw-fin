@@ -71,7 +71,7 @@ model Post {
   title     String?
   content   String?
   mediaUrl  String?
-  publicId  String?
+  publicId  String     @unique
   mediaType MediaType?
   comments  Comment[]
   likes     Like[]
@@ -92,13 +92,12 @@ model Comment {
 model Like {
   id String @id @default(uuid())
 
-  // юзер текущуй
+  // юзер текущий
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
   // пост на котором ставят лайк
-  // на каком? Как узнать какой у него айди в бд?
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [publicId])
   postId String
 
   createdAt DateTime @default(now())

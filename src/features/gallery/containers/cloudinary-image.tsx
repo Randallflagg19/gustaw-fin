@@ -8,7 +8,7 @@ import { setAsFavoriteAction } from "@/features/gallery/actions/toggleLikeAction
 import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
 import { ImageMenu } from "@/features/gallery/containers/image-menu";
 import { createLikeAction } from "@/features/gallery/actions/toggleDBLikeActions";
-import useStore from "@/features/user/user";
+import useUserStore from "@/entities/user/model/user-store";
 
 type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
   imageData: SearchResult;
@@ -28,7 +28,7 @@ export function CloudinaryImage({
     setIsFavorite(imageData.tags.includes("favorite"));
   }, [imageData.tags]);
 
-  const { user } = useStore();
+  const { user } = useUserStore();
 
   const toggleFavorite = () => {
     const newFavorite = !isFavorite;

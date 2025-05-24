@@ -5,9 +5,24 @@ import { PawPrint } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import { cn } from "@/shared/lib/css";
 import { useEffect } from "react";
+import useUserStore from "@/entities/user/model/user-store";
 
-export const Header = () => {
-  useEffect(() => {}, []);
+type Props = {
+  userFromServer: {
+    id: string;
+    login: string;
+    role: "USER" | "ADMIN";
+  } | null;
+};
+
+export const HeaderClient = ({ userFromServer }: Props) => {
+  const { user, setUser } = useUserStore();
+
+  useEffect(() => {
+    if (userFromServer) {
+      setUser(userFromServer);
+    }
+  }, [userFromServer, setUser]);
 
   return (
     <header className="max-w-5xl mx-auto px-4 py-6 flex items-start justify-between">

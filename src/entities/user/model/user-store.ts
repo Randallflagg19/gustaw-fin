@@ -10,7 +10,7 @@ export interface IUserStore {
   user: IUser;
   setUser: (user: IUser) => void;
 }
-const useStore = create<IUserStore>((set) => ({
+const useUserStore = create<IUserStore>((set) => ({
   user: {
     id: "",
     role: "USER" as const,
@@ -21,4 +21,4 @@ const useStore = create<IUserStore>((set) => ({
   },
 }));
 
-export default useStore;
+export default useUserStore;
