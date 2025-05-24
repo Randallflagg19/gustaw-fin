@@ -23,6 +23,7 @@ export const createUser = async ({
     login,
     passwordHash: hash,
     salt,
+    role: "USER",
   });
 
   return right(user);
