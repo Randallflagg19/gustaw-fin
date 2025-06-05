@@ -1,31 +1,25 @@
 "use server";
 
-import { prisma } from "@/shared/lib/db";
-import { Either, left, right } from "@/shared/lib/either";
-import { CreateLikeResponse } from "@/entities/like/domain";
+import { left, right, Either } from "@/shared/lib/either";
+import { like } from "../repositories/like";
+import { CreateLikeResponse } from "../domain";
 
 export async function toggleLike(
   userId: string,
   postId: string,
 ): Promise<Either<string, CreateLikeResponse>> {
   try {
-    const existingLike = await prisma.like.findUnique({
-      where: { userId_postId: { userId, postId } },
-    });
+    const existing = await like.findByUserAndPost(userId, postId);
 
-    if (!existingLike) {
-      const newLike = await prisma.like.create({
-        data: { userId, postId },
-      });
-      return right({ like: newLike });
-    } else {
-      await prisma.like.delete({
-        where: { userId_postId: { userId, postId } },
-      });
-      return right({ like: existingLike });
+    if (!existing) {
+      const newLike = await like.create(userId, postId);
+      return right({ like: newLike, isLiked: true });
     }
-  } catch (error) {
-    console.error("Ошибка при переключении лайка:", error);
-    return left("Не удалось переключить лайк");
+
+    await like.delete(userId, postId);
+    return right({ like: existing, isLiked: false });
+  } catch (err) {
+    console.error("LikeService.toggleLike error:", err);
+    return left("UNKNOWN");
   }
 }
