@@ -1,24 +1,19 @@
 import { create } from "zustand";
 
 export interface IUser {
-  id?: string;
-  role?: "USER" | "ADMIN";
-  login?: string;
+  id: string;
+  role: "USER" | "ADMIN";
+  login: string;
 }
 
 export interface IUserStore {
-  user: IUser;
-  setUser: (user: IUser) => void;
+  user: IUser | null;
+  setUser: (user: IUser | null) => void;
 }
+
 const useUserStore = create<IUserStore>((set) => ({
-  user: {
-    id: "",
-    role: "USER" as const,
-    login: "",
-  },
-  setUser: (user) => {
-    set({ user });
-  },
+  user: null,
+  setUser: (user) => set({ user }),
 }));
 
 export default useUserStore;

@@ -13,16 +13,15 @@ import useUserStore from "@/entities/user/model/user-store";
 import { redirect } from "next/navigation";
 export function SignInForm() {
   const setUser = useUserStore((state) => state.setUser);
+
   const wrappedSignIn = async (state: unknown, formData: FormData) => {
     const result = await signInAction(state, formData);
-    if (result.type === "right") {
-      if (result?.value.user) {
-        setUser(result.value.user);
-      }
-    }
-    return signInAction(state, formData).then(() => {
+
+    if (result.type === "right" && result.value.user) {
+      setUser(result.value.user);
       redirect("/");
-    });
+    }
+    return result;
   };
 
   const [formState, action, isPending] = useActionState(

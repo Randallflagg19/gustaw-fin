@@ -3,44 +3,43 @@
 import { CldImage, CldImageProps } from "next-cloudinary";
 import { EmptyHeart } from "@/shared/ui/icons/empty-heart";
 import { FullHeart } from "@/shared/ui/icons/full-heart";
-import { useEffect, useState } from "react";
+import React from "react";
 import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
 import { ImageMenu } from "@/features/gallery/containers/image-menu";
 import useUserStore from "@/entities/user/model/user-store";
-import { toggleLike } from "@/entities/like/services/toggleLike";
-import { getLikeCount } from "@/entities/like/services/getLikeCount";
+import useLikesStore, { LikeInfo } from "@/entities/like/model/likes-store";
 
 type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
   imageData: SearchResult;
-  onLike?: (image: SearchResult, liked: boolean) => void; // передаем статус лайка
+  onLike?: (image: SearchResult, liked: boolean) => void;
 };
+
+// Вынесли дефолтный объект наружу, чтобы ссылка была стабильна
+const DEFAULT_LIKE_INFO: LikeInfo = { count: 0, isLiked: false };
 
 export function CloudinaryImage({
   imageData,
   onLike,
   ...rest
 }: CloudinaryImageProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const user = useUserStore((s) => s.user);
 
-  // Синхронизируем локальный стейт с тегами при изменении imageData
-  useEffect(() => {
-    setIsFavorite(imageData.tags.includes("favorite"));
-  }, [imageData.tags]);
+  // Теперь селектор вернёт либо реально сохранённый объект,
+  // либо одну и ту же ссылку DEFAULT_LIKE_INFO
+  const likeInfo = useLikesStore(
+    (s) => s.byId[imageData.public_id] ?? DEFAULT_LIKE_INFO,
+  );
 
-  const { user } = useUserStore();
+  const toggleLikeAsync = useLikesStore((s) => s.toggleLikeAsync);
 
   const toggleFavorite = () => {
-    const newFavorite = !isFavorite;
-    setIsFavorite(newFavorite);
-    onLike?.(imageData, newFavorite);
-
-    if (user.id) {
-      toggleLike(user.id, imageData.public_id);
-
-      getLikeCount(imageData.public_id).then((res) => console.log(res));
-    } else {
+    if (!user) {
       console.warn("Пользователь не авторизован");
+      return;
     }
+    // Запускаем асинхронный экшн стора
+    toggleLikeAsync(imageData.public_id, user.id);
+    onLike?.(imageData, !likeInfo.isLiked);
   };
 
   return (
@@ -50,7 +49,8 @@ export function CloudinaryImage({
         src={imageData.public_id}
         className="w-full h-auto object-cover block rounded-lg"
       />
-      {isFavorite ? (
+
+      {likeInfo.isLiked ? (
         <FullHeart
           onClick={toggleFavorite}
           className="absolute top-2 left-2 hover:text-white text-red-500 cursor-pointer z-10"
@@ -61,6 +61,11 @@ export function CloudinaryImage({
           className="absolute top-2 left-2 hover:text-red-500 cursor-pointer z-10"
         />
       )}
+
+      <div className="absolute top-2 left-9 text-white font-medium z-10">
+        {likeInfo.count}
+      </div>
+
       <ImageMenu image={imageData} />
     </div>
   );
