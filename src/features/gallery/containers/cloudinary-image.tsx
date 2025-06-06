@@ -4,14 +4,14 @@ import { CldImage, CldImageProps } from "next-cloudinary";
 import { EmptyHeart } from "@/shared/ui/icons/empty-heart";
 import { FullHeart } from "@/shared/ui/icons/full-heart";
 import React, { useState, useEffect } from "react";
-import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
+import { PostResult } from "@/features/gallery/services/getDataBasePhotos";
 import useUserStore from "@/entities/user/model/user-store";
 import useLikesStore, { LikeInfo } from "@/entities/like/model/likes-store";
 import { redirect } from "next/navigation";
 
 type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
-  imageData: SearchResult;
-  onLike?: (image: SearchResult, liked: boolean) => void;
+  imageData: PostResult;
+  onLike?: (image: PostResult, liked: boolean) => void;
 };
 
 // Вынесли дефолтный объект наружу, чтобы ссылка была стабильна
@@ -25,7 +25,7 @@ export function CloudinaryImage({
   const user = useUserStore((store) => store.user);
 
   const likeInfo = useLikesStore(
-    (store) => store.likes[imageData.public_id] ?? DEFAULT_LIKE_INFO,
+    (store) => store.likes[imageData.publicId] ?? DEFAULT_LIKE_INFO,
   );
 
   const toggleLike = useLikesStore((s) => s.toggleLike);
@@ -41,13 +41,21 @@ export function CloudinaryImage({
     return () => clearTimeout(timeout); // Очистка таймера, если компонент размонтирован
   }, []);
 
+  // Изменим onLike, чтобы синхронизировать статус загрузки
   const toggleFavorite = () => {
     if (!user) {
       redirect("/sign-in");
+      return; // Прерываем выполнение, если пользователь не авторизован
     }
-    // Запускаем асинхронный экшн стора
-    toggleLike(imageData.public_id, user.id);
+
+    // Если лайк ставится, сразу меняем состояние загрузки
+    setIsLoading(true);
+    toggleLike(imageData.publicId, user.id);
+
     onLike?.(imageData, !likeInfo.isLiked);
+
+    // Эмулируем завершение загрузки лайка
+    setIsLoading(false);
   };
 
   return (
@@ -59,7 +67,7 @@ export function CloudinaryImage({
         <>
           <CldImage
             {...rest}
-            src={imageData.public_id}
+            src={imageData.publicId}
             className="w-full h-auto object-cover block rounded-lg"
           />
 

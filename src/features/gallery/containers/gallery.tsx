@@ -9,16 +9,13 @@ export async function Gallery() {
   return (
     <section className="w-full">
       <UploadWrapper />
-      {/* тут сетка фоток: компонент сетки и внутри массив*/}
+      {/* сетка фоток */}
       <GalleryGrid
         images={photosFromDb.map((photo) => ({
-          public_id: photo.publicId ?? "",
-          tags: [],
-          height: "500", // или можно позже расширить
-          width: "500",
-          secure_url: photo.mediaUrl ?? "",
-          // 👇 необязательно, но можно добавить кастомные поля, если компонент поддерживает
           id: photo.id,
+          mediaUrl: photo.mediaUrl ?? "", // добавляем mediaUrl
+          publicId: photo.publicId ?? "", // добавляем publicId
+          createdAt: photo.createdAt, // добавляем createdAt
           likesCount: photo.likesCount,
           commentCount: photo.commentCount,
         }))}

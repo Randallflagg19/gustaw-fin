@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useLikesStore, { LikeInfo } from "@/entities/like/model/likes-store";
-import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
+import { PostResult } from "@/features/gallery/services/getDataBasePhotos";
 
 async function fetchLikesSummary(
   photoIds: string[],
@@ -19,24 +19,21 @@ async function fetchLikesSummary(
   return response.json() as Promise<Record<string, LikeInfo>>;
 }
 
-export function useLikesSummary(
-  images: SearchResult[],
-  userId: string | undefined,
-) {
-  const setBatch = useLikesStore((s) => s.setLikesBatch);
-  const loaded = useLikesStore((s) => s.isLoaded);
+export function useLikesSummary(images: PostResult[], userId: string) {
+  const setLikesBatch = useLikesStore((s) => s.setLikesBatch);
 
   useEffect(() => {
-    if (!loaded) {
-      const photoIds = images.map((img) => img.public_id);
+    if (userId) {
+      // Получаем лайки для новых изображений
+      const photoIds = images.map((img) => img.publicId);
 
       fetchLikesSummary(photoIds, userId)
         .then((batch) => {
-          setBatch(batch);
+          setLikesBatch(batch); // Обновляем состояние лайков
         })
         .catch((err) => {
-          console.error("Ошибка photosSummary:", err);
+          console.error("Ошибка при получении лайков", err);
         });
     }
-  }, [images, userId, loaded, setBatch]);
+  }, [images, userId, setLikesBatch]);
 }
