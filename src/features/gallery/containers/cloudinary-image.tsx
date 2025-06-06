@@ -3,9 +3,8 @@
 import { CldImage, CldImageProps } from "next-cloudinary";
 import { EmptyHeart } from "@/shared/ui/icons/empty-heart";
 import { FullHeart } from "@/shared/ui/icons/full-heart";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
-import { ImageMenu } from "@/features/gallery/containers/image-menu";
 import useUserStore from "@/entities/user/model/user-store";
 import useLikesStore, { LikeInfo } from "@/entities/like/model/likes-store";
 import { redirect } from "next/navigation";
@@ -23,50 +22,64 @@ export function CloudinaryImage({
   onLike,
   ...rest
 }: CloudinaryImageProps) {
-  const user = useUserStore((s) => s.user);
+  const user = useUserStore((store) => store.user);
 
-  // Теперь селектор вернёт либо реально сохранённый объект,
-  // либо одну и ту же ссылку DEFAULT_LIKE_INFO
   const likeInfo = useLikesStore(
-    (s) => s.likes[imageData.public_id] ?? DEFAULT_LIKE_INFO,
+    (store) => store.likes[imageData.public_id] ?? DEFAULT_LIKE_INFO,
   );
 
-  const toggleLikeAsync = useLikesStore((s) => s.toggleLike);
+  const toggleLike = useLikesStore((s) => s.toggleLike);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Симуляция загрузки данных
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // 1 секунда для примера
+
+    return () => clearTimeout(timeout); // Очистка таймера, если компонент размонтирован
+  }, []);
 
   const toggleFavorite = () => {
     if (!user) {
       redirect("/sign-in");
     }
     // Запускаем асинхронный экшн стора
-    toggleLikeAsync(imageData.public_id, user.id);
+    toggleLike(imageData.public_id, user.id);
     onLike?.(imageData, !likeInfo.isLiked);
   };
 
   return (
     <div className="relative">
-      <CldImage
-        {...rest}
-        src={imageData.public_id}
-        className="w-full h-auto object-cover block rounded-lg"
-      />
-
-      {likeInfo.isLiked ? (
-        <FullHeart
-          onClick={toggleFavorite}
-          className="absolute top-2 left-2 hover:text-white text-red-500 cursor-pointer z-10"
-        />
+      {/* Скелетон */}
+      {isLoading ? (
+        <div className="w-full h-64 bg-gray-300 animate-pulse rounded-lg"></div>
       ) : (
-        <EmptyHeart
-          onClick={toggleFavorite}
-          className="absolute top-2 left-2 hover:text-red-500 cursor-pointer z-10"
-        />
+        <>
+          <CldImage
+            {...rest}
+            src={imageData.public_id}
+            className="w-full h-auto object-cover block rounded-lg"
+          />
+
+          {likeInfo.isLiked ? (
+            <FullHeart
+              onClick={toggleFavorite}
+              className="absolute top-2 left-2 hover:text-white text-red-500 cursor-pointer z-10"
+            />
+          ) : (
+            <EmptyHeart
+              onClick={toggleFavorite}
+              className="absolute top-2 left-2 hover:text-red-500 cursor-pointer z-10"
+            />
+          )}
+
+          <div className="absolute top-2 left-9 text-white font-medium z-10">
+            {likeInfo.count}
+          </div>
+        </>
       )}
-
-      <div className="absolute top-2 left-9 text-white font-medium z-10">
-        {likeInfo.count}
-      </div>
-
-      <ImageMenu image={imageData} />
     </div>
   );
 }
