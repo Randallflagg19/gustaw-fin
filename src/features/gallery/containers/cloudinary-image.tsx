@@ -8,6 +8,7 @@ import { SearchResult } from "@/features/gallery/services/getCloudinaryPhotos";
 import { ImageMenu } from "@/features/gallery/containers/image-menu";
 import useUserStore from "@/entities/user/model/user-store";
 import useLikesStore, { LikeInfo } from "@/entities/like/model/likes-store";
+import { redirect } from "next/navigation";
 
 type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
   imageData: SearchResult;
@@ -27,15 +28,14 @@ export function CloudinaryImage({
   // Теперь селектор вернёт либо реально сохранённый объект,
   // либо одну и ту же ссылку DEFAULT_LIKE_INFO
   const likeInfo = useLikesStore(
-    (s) => s.byId[imageData.public_id] ?? DEFAULT_LIKE_INFO,
+    (s) => s.likes[imageData.public_id] ?? DEFAULT_LIKE_INFO,
   );
 
-  const toggleLikeAsync = useLikesStore((s) => s.toggleLikeAsync);
+  const toggleLikeAsync = useLikesStore((s) => s.toggleLike);
 
   const toggleFavorite = () => {
     if (!user) {
-      console.warn("Пользователь не авторизован");
-      return;
+      redirect("/sign-in");
     }
     // Запускаем асинхронный экшн стора
     toggleLikeAsync(imageData.public_id, user.id);
