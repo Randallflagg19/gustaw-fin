@@ -19,7 +19,10 @@ async function fetchLikesSummary(
   return response.json() as Promise<Record<string, LikeInfo>>;
 }
 
-export function useLikesSummary(images: PostResult[], userId: string) {
+export function useLikesSummary(
+  images: PostResult[],
+  userId: string | undefined,
+) {
   const setLikesBatch = useLikesStore((s) => s.setLikesBatch);
 
   useEffect(() => {
