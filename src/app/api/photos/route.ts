@@ -1,13 +1,12 @@
-// src/app/api/photos/route.ts
-
+// app/api/photos/route.ts
 import { NextResponse } from "next/server";
-import { getDataBasePhotos } from "@/features/gallery/services/getDataBasePhotos";
+import { getDataBasePhotosPage } from "@/features/gallery/services/getDataBasePhotosPage";
 
-// Запрос для получения данных
-export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const page = url.searchParams.get("page") || "1"; // По умолчанию страница 1
-  console.log(page);
-  const photos = await getDataBasePhotos(); // Логика пагинации
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const page = parseInt(searchParams.get("page") || "1");
+  const pageSize = parseInt(searchParams.get("pageSize") || "9");
+
+  const photos = await getDataBasePhotosPage({ page, pageSize });
   return NextResponse.json(photos);
 }

@@ -1,25 +1,26 @@
+// features/gallery/ui/gallery.tsx
 import React from "react";
-import { GalleryGrid } from "@/features/gallery/ui/gallery-grid";
-import { getDataBasePhotos } from "@/features/gallery/services/getDataBasePhotos";
+import {
+  getDataBasePhotosPage,
+  PostResult,
+} from "@/features/gallery/services/getDataBasePhotosPage";
 import { UploadWrapper } from "@/features/gallery/containers/upload-wrapper";
+import { InfiniteGallery } from "@/features/gallery/containers/infinite-gallery";
 
-export async function Gallery() {
-  const photosFromDb = await getDataBasePhotos();
+export const dynamic = "force-dynamic";
+
+export default async function Gallery() {
+  // На сервере сразу забираем первые 9 фото
+  const initialPhotos: PostResult[] = await getDataBasePhotosPage({
+    page: 1,
+    pageSize: 9,
+  });
 
   return (
     <section className="w-full">
       <UploadWrapper />
-      {/* сетка фоток */}
-      <GalleryGrid
-        images={photosFromDb.map((photo) => ({
-          id: photo.id,
-          mediaUrl: photo.mediaUrl ?? "", // добавляем mediaUrl
-          publicId: photo.publicId ?? "", // добавляем publicId
-          createdAt: photo.createdAt, // добавляем createdAt
-          likesCount: photo.likesCount,
-          commentCount: photo.commentCount,
-        }))}
-      />
+      {/* Передаём первые 9 фото в клиентский InfiniteGallery */}
+      <InfiniteGallery initialImages={initialPhotos} />
     </section>
   );
 }
