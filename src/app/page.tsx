@@ -1,4 +1,4 @@
-import Gallery from "@/features/gallery/containers/gallery";
+import { Gallery } from "@/features/gallery";
 import Header from "@/features/session/header";
 
 export const dynamic = "force-dynamic";

@@ -9,7 +9,7 @@ import { InfiniteGallery } from "@/features/gallery/containers/infinite-gallery"
 
 export const dynamic = "force-dynamic";
 
-export default async function Gallery() {
+export async function Gallery() {
   // На сервере сразу забираем первые 9 фото
   const initialPhotos: PostResult[] = await getDataBasePhotosPage({
     page: 1,
