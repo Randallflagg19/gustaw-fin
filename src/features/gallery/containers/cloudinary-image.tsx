@@ -14,9 +14,6 @@ type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
   onLike?: (image: PostResult, liked: boolean) => void;
 };
 
-// Вынесли дефолтный объект наружу, чтобы ссылка была стабильна
-const DEFAULT_LIKE_INFO: LikeInfo = { count: 0, isLiked: false };
-
 export function CloudinaryImage({
   imageData,
   onLike,
