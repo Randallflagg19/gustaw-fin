@@ -4,7 +4,7 @@ import React from "react";
 import { ImageGrid } from "@/shared/image-grid";
 import { CloudinaryImage } from "@/features/gallery/containers/cloudinary-image";
 import useUserStore from "@/entities/user/model/user-store";
-import { PostResult } from "@/features/gallery/services/getDataBasePhotos";
+import { PostResult } from "@/features/gallery/services/getDataBasePhotosPage";
 import { useLikesSummary } from "../../likes/hooks/useLikesSummary"; // Импортируем хук
 
 export function GalleryGrid({
