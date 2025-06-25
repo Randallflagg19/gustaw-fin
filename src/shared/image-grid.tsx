@@ -1,6 +1,6 @@
 "use client";
 
-import { PostResult } from "@/features/gallery/services/getDataBasePhotos";
+import { PostResult } from "@/features/gallery/services/getDataBasePhotosPage";
 import React, { ReactNode } from "react";
 
 export function ImageGrid({

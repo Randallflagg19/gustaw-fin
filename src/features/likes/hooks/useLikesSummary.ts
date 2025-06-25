@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useLikesStore, { LikeInfo } from "@/entities/like/model/likes-store";
-import { PostResult } from "@/features/gallery/services/getDataBasePhotos";
+import { PostResult } from "@/features/gallery/services/getDataBasePhotosPage";
 
 async function fetchLikesSummary(
   photoIds: string[],

@@ -6,6 +6,7 @@ import { GalleryGrid } from "@/features/gallery/ui/gallery-grid";
 import { PostResult } from "@/features/gallery/services/getDataBasePhotosPage";
 import { useLikesSummary } from "@/features/likes/hooks/useLikesSummary";
 import useUserStore from "@/entities/user/model/user-store";
+import useLikesStore from "@/entities/like/model/likes-store";
 
 interface InfiniteGalleryProps {
   initialImages: PostResult[];
@@ -69,7 +70,7 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
         }
       },
       {
-        rootMargin: "200px", // подгружает чуть раньше, когда “200px” до конца
+        rootMargin: "200px", // подгружает чуть раньше, когда "200px" до конца
       },
     );
 

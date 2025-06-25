@@ -4,7 +4,7 @@ import { CldImage, CldImageProps } from "next-cloudinary";
 import { EmptyHeart } from "@/shared/ui/icons/empty-heart";
 import { FullHeart } from "@/shared/ui/icons/full-heart";
 import React, { useState, useEffect } from "react";
-import { PostResult } from "@/features/gallery/services/getDataBasePhotos";
+import { PostResult } from "@/features/gallery/services/getDataBasePhotosPage";
 import useUserStore from "@/entities/user/model/user-store";
 import useLikesStore, { LikeInfo } from "@/entities/like/model/likes-store";
 import { redirect } from "next/navigation";
@@ -24,9 +24,10 @@ export function CloudinaryImage({
 }: CloudinaryImageProps) {
   const user = useUserStore((store) => store.user);
 
-  const likeInfo = useLikesStore(
-    (store) => store.likes[imageData.publicId] ?? DEFAULT_LIKE_INFO,
-  );
+  const likeInfoFromStore = useLikesStore((store) => store.likes[imageData.publicId]);
+  const likeInfo = likeInfoFromStore && likeInfoFromStore.count > 0
+    ? likeInfoFromStore
+    : { count: imageData.likesCount, isLiked: false };
 
   const toggleLike = useLikesStore((s) => s.toggleLike);
 
