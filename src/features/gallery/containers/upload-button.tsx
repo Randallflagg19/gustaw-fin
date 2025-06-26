@@ -17,21 +17,22 @@ export const UploadButton = (): JSX.Element => {
       config={{ cloud: { cloudName: "dhnzp0qqr" } }}
       uploadPreset="rk3q1ykf"
       onSuccess={({ info }) => {
-        const file = info as CloudinaryUploadWidgetInfo;
+        if (info) {
+          const file = info as CloudinaryUploadWidgetInfo;
+          startTransition(async () => {
+            const result = await createPostAction({
+              secure_url: file.secure_url,
+              resource_type: file.resource_type,
+              public_id: file.public_id,
+            });
 
-        startTransition(async () => {
-          const result = await createPostAction({
-            secure_url: file.secure_url,
-            resource_type: file.resource_type,
-            public_id: file.public_id,
+            if (result.success) {
+              router.refresh();
+            } else {
+              console.error("Не удалось создать пост");
+            }
           });
-
-          if (result.success) {
-            router.refresh();
-          } else {
-            console.error("Не удалось создать пост");
-          }
-        });
+        }
       }}
     >
       {({ open }) => (

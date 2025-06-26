@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Background } from "@/shared/ui/background";
 
 export const metadata: Metadata = {
   title: "Густав",
@@ -16,7 +17,9 @@ export default function RootLayout({
       <body
         className={`bg-[url('/images/bg.png')] bg-repeat bg-fixed font-sans antialiased dark min-h-screen flex flex-col grow`}
       >
-        <div className="w-full px-4 pt-8">{children}</div>
+        <Background>
+          <div className="w-full px-4 pt-8">{children}</div>
+        </Background>
       </body>
     </html>
   );
