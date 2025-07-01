@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Background } from "@/shared/ui/background";
+import { Orbitron } from "next/font/google";
+
+const orbitron = Orbitron({
+  subsets: ['latin'],
+  variable: '--font-orbitron',
+});
 
 export const metadata: Metadata = {
   title: "Густав",
@@ -15,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-[url('/images/bg.png')] bg-repeat bg-fixed font-sans antialiased dark min-h-screen flex flex-col grow`}
+        className={`${orbitron.variable} bg-[url('/images/bg.png')] bg-repeat bg-fixed font-sans antialiased dark min-h-screen flex flex-col grow`}
       >
         <Background>
           <div className="w-full px-4 pt-8">{children}</div>

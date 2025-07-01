@@ -19,73 +19,89 @@ export function CloudinaryImage({
   onLike,
   ...rest
 }: CloudinaryImageProps) {
-  const user = useUserStore((store) => store.user);
-
+  const user = useUserStore((s) => s.user);
   const likeInfoFromStore = useLikesStore((store) => store.likes[imageData.publicId]);
-  const likeInfo = likeInfoFromStore && likeInfoFromStore.count > 0
-    ? likeInfoFromStore
-    : { count: imageData.likesCount, isLiked: false };
-
+  const likeInfo = likeInfoFromStore ?? { count: imageData.likesCount, isLiked: false };
   const toggleLike = useLikesStore((s) => s.toggleLike);
 
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const [isLikeProcessing, setIsLikeProcessing] = useState(false);
 
   useEffect(() => {
-    // Симуляция загрузки данных
-    const timeout = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000); // 1 секунда для примера
-
-    return () => clearTimeout(timeout); // Очистка таймера, если компонент размонтирован
-  }, []);
-
-  // Изменим onLike, чтобы синхронизировать статус загрузки
-  const toggleFavorite = () => {
-    if (!user) {
-      redirect("/sign-in");
-      return; // Прерываем выполнение, если пользователь не авторизован
+    if (!isLoading) {
+      setIsLoading(true);
     }
+  }, [imageData.publicId]);
 
-    // Если лайк ставится, сразу меняем состояние загрузки
-    setIsLoading(true);
-    toggleLike(imageData.publicId, user.id);
+  const handleLoad = () => {
+    setIsLoading(false);
+    setHasError(false);
+  };
 
-    onLike?.(imageData, !likeInfo.isLiked);
-
-    // Эмулируем завершение загрузки лайка
+  const handleError = () => {
+    console.error(`Failed to load image ${imageData.publicId}`);
+    setHasError(true);
     setIsLoading(false);
   };
 
+  const handleLikeClick = async () => {
+    if (!user || isLikeProcessing) return;
+
+    setIsLikeProcessing(true);
+    try {
+      await toggleLike(imageData.publicId, user.id);
+      onLike?.(imageData, !likeInfo.isLiked);
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    } finally {
+      setIsLikeProcessing(false);
+    }
+  };
+
+  if (hasError) {
+    return (
+      <div className="relative w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+        <p className="text-gray-500">Изображение недоступно</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="relative">
-      {/* Скелетон */}
-      {isLoading ? (
-        <div className="w-full h-64 bg-gray-300 animate-pulse rounded-lg"></div>
-      ) : (
-        <>
-          <CldImage
-            {...rest}
-            src={imageData.publicId}
-            className="w-full h-auto object-cover block rounded-lg"
-          />
-
-          {likeInfo.isLiked ? (
-            <FullHeart
-              onClick={toggleFavorite}
-              className="absolute top-2 left-2 hover:text-white text-red-500 cursor-pointer z-10"
-            />
-          ) : (
-            <EmptyHeart
-              onClick={toggleFavorite}
-              className="absolute top-2 left-2 hover:text-red-500 cursor-pointer z-10"
-            />
-          )}
-
-          <div className="absolute top-2 left-9 text-white font-medium z-10">
-            {likeInfo.count}
-          </div>
-        </>
+    <div className="relative group">
+      {isLoading && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-lg" />
       )}
+
+      <div className="relative">
+        <CldImage
+          {...rest}
+          src={imageData.publicId}
+          className="w-full h-auto object-cover block rounded-lg"
+          onLoad={handleLoad}
+          onError={handleError}
+          alt=""
+        />
+
+        {user && (
+          <div className="absolute top-2 left-2 flex items-center gap-2">
+            <button
+              onClick={handleLikeClick}
+              disabled={isLikeProcessing}
+              className={`text-white hover:scale-110 transition-transform ${isLikeProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {likeInfo.isLiked ? (
+                <FullHeart className="text-red-500 hover:text-red-600" />
+              ) : (
+                <EmptyHeart className="hover:text-red-500" />
+              )}
+            </button>
+            <span className="font-[var(--font-orbitron)] text-white text-sm tracking-wider font-bold [text-shadow:_0_0_5px_rgba(255,255,255,0.5),_0_1px_2px_rgb(0_0_0_/_0.8)]">
+              {likeInfo.count}
+            </span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
