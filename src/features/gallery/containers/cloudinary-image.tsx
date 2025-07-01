@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import { PostResult } from "@/features/gallery/services/getDataBasePhotosPage";
 import useUserStore from "@/entities/user/model/user-store";
 import useLikesStore from "@/entities/like/model/likes-store";
+import { useRouter } from "next/navigation";
 
 type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
   imageData: PostResult;
@@ -18,6 +19,7 @@ export function CloudinaryImage({
   onLike,
   ...rest
 }: CloudinaryImageProps) {
+  const router = useRouter();
   const user = useUserStore((s) => s.user);
   const likeInfoFromStore = useLikesStore((store) => store.likes[imageData.publicId]);
   const likeInfo = likeInfoFromStore ?? { count: imageData.likesCount, isLiked: false };
@@ -45,7 +47,12 @@ export function CloudinaryImage({
   };
 
   const handleLikeClick = async () => {
-    if (!user || isLikeProcessing) return;
+    if (!user) {
+      router.push("/sign-up");
+      return;
+    }
+
+    if (isLikeProcessing) return;
 
     setIsLikeProcessing(true);
     try {
@@ -82,24 +89,24 @@ export function CloudinaryImage({
           alt=""
         />
 
-        {user && (
-          <div className="absolute top-2 left-2 flex items-center gap-2">
-            <button
-              onClick={handleLikeClick}
-              disabled={isLikeProcessing}
-              className={`text-white hover:scale-110 transition-transform ${isLikeProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
-            >
-              {likeInfo.isLiked ? (
-                <FullHeart className="text-red-500 hover:text-red-600" />
-              ) : (
-                <EmptyHeart className="hover:text-red-500" />
-              )}
-            </button>
-            <span className="font-[var(--font-orbitron)] text-white text-sm tracking-wider font-bold [text-shadow:_0_0_5px_rgba(255,255,255,0.5),_0_1px_2px_rgb(0_0_0_/_0.8)]">
-              {likeInfo.count}
-            </span>
-          </div>
-        )}
+
+        <div className="absolute top-2 left-2 flex items-center gap-2">
+          <button
+            onClick={handleLikeClick}
+            disabled={isLikeProcessing}
+            className={`text-white hover:scale-110 transition-transform ${isLikeProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            {likeInfo.isLiked ? (
+              <FullHeart className="text-red-500 hover:text-red-600" />
+            ) : (
+              <EmptyHeart className="hover:text-red-500" />
+            )}
+          </button>
+          <span className="font-[var(--font-orbitron)] text-white text-sm tracking-wider font-bold [text-shadow:_0_0_5px_rgba(255,255,255,0.5),_0_1px_2px_rgb(0_0_0_/_0.8)]">
+            {likeInfo.count}
+          </span>
+        </div>
+
       </div>
     </div>
   );
