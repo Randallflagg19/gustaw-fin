@@ -30,7 +30,10 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
         if (entries[0].isIntersecting && hasMore && !loading) {
           setLoading(true);
           try {
-            const response = await fetch(`/api/photos?page=${page}&pageSize=9`);
+            const response = await fetch(`/api/photos?page=${page}&pageSize=9`, {
+              // Увеличиваем таймаут до 30 секунд для медленных соединений
+              signal: AbortSignal.timeout(30000)
+            });
             const newImages: PostResult[] = await response.json();
             if (newImages.length === 0) {
               setHasMore(false);
