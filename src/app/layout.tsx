@@ -9,8 +9,8 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "Густав",
-  description: "Сайт про кота",
+  title: "Gustaw",
+  description: "Gustaw's personal website",
 };
 
 export default function RootLayout({
@@ -20,9 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${orbitron.variable} bg-[url('/images/bg.png')] bg-repeat bg-fixed font-sans antialiased dark min-h-screen flex flex-col grow`}
-      >
+      <body className={`${orbitron.variable} font-sans antialiased dark min-h-screen flex flex-col grow`}>
         <Background>
           <div className="w-full px-4 pt-8">{children}</div>
         </Background>

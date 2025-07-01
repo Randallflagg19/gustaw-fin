@@ -36,6 +36,7 @@ interface BackgroundProps {
 export function Background({ children, className = "" }: BackgroundProps) {
   const [loaded, setLoaded] = useState(false);
   const [finalImageLoaded, setFinalImageLoaded] = useState(false);
+  const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
     // Load blur placeholder immediately
@@ -51,7 +52,11 @@ export function Background({ children, className = "" }: BackgroundProps) {
       width,
       quality: 75 // Reduced quality for faster loading while maintaining good appearance
     });
-    finalImg.onload = () => setFinalImageLoaded(true);
+    finalImg.onload = () => {
+      setFinalImageLoaded(true);
+      // Add a small delay before showing content to ensure smooth transition
+      setTimeout(() => setShowContent(true), 100);
+    };
   }, []);
 
   const currentBgUrl = finalImageLoaded
@@ -61,16 +66,24 @@ export function Background({ children, className = "" }: BackgroundProps) {
     })
     : loaded
       ? getCloudinaryUrl(BG_PUBLIC_ID, { blur: true })
-      : "none";
+      : "";
+
+  if (!showContent) {
+    return (
+      <div className="fixed inset-0 bg-black flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div
       className={`min-h-screen flex flex-col grow font-sans antialiased dark
-        bg-repeat bg-fixed
+        bg-repeat bg-fixed bg-black
         transition-[background-image] duration-500
         ${className}`}
       style={{
-        backgroundImage: `url(${currentBgUrl})`,
+        backgroundImage: currentBgUrl ? `url(${currentBgUrl})` : 'none',
       }}
     >
       {children}
