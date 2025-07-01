@@ -7,7 +7,6 @@ import React, { useState, useEffect } from "react";
 import { PostResult } from "@/features/gallery/services/getDataBasePhotosPage";
 import useUserStore from "@/entities/user/model/user-store";
 import useLikesStore from "@/entities/like/model/likes-store";
-import { redirect } from "next/navigation";
 
 type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
   imageData: PostResult;
