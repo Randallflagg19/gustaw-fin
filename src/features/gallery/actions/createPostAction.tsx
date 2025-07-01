@@ -8,7 +8,19 @@ type CreatePostData = {
   public_id: string;
 };
 
-export async function createPostAction(data: CreatePostData) {
+type CreatePostResponse = {
+  success: true;
+  post: {
+    id: string;
+    mediaUrl: string;
+    publicId: string;
+    createdAt: Date;
+  };
+} | {
+  success: false;
+};
+
+export async function createPostAction(data: CreatePostData): Promise<CreatePostResponse> {
   try {
     const post = await postRepository.savePost({
       mediaUrl: data.secure_url,

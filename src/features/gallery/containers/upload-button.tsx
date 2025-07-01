@@ -27,6 +27,22 @@ export const UploadButton = (): JSX.Element => {
             });
 
             if (result.success) {
+              // Notify about new upload
+              const newImage = {
+                id: result.post.id,
+                mediaUrl: result.post.mediaUrl,
+                publicId: result.post.publicId,
+                createdAt: result.post.createdAt,
+                likesCount: 0,
+                commentCount: 0,
+              };
+              localStorage.setItem('newUpload', JSON.stringify(newImage));
+              // Trigger storage event manually since we're in the same window
+              window.dispatchEvent(new StorageEvent('storage', {
+                key: 'newUpload',
+                newValue: JSON.stringify(newImage)
+              }));
+
               router.refresh();
             } else {
               console.error("Не удалось создать пост");

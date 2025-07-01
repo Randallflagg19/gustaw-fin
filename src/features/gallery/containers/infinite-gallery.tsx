@@ -13,10 +13,10 @@ interface InfiniteGalleryProps {
 
 export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
   const [images, setImages] = useState<PostResult[]>(initialImages);
-  const [page, setPage] = useState(2); // потому что 1-ю страницу мы уже загрузили на сервере
-  const [hasMore, setHasMore] = useState(initialImages.length === 9);
-  const loaderRef = useRef<HTMLDivElement | null>(null);
-  const pageSize = 9;
+  const [page, setPage] = useState(2);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const observerTarget = useRef<HTMLDivElement>(null);
 
   // Получаем текущего пользователя из zustand
   const user = useUserStore((s) => s.user);
@@ -24,64 +24,59 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
   // 1) Вызов хука для подгрузки лайков (на верхнем уровне компонента!)
   useLikesSummary(images, user?.id);
 
-  // 2) Эффект: когда меняется page, загружаем новые 9 фото
   useEffect(() => {
-    // Если нет новых страниц — не грузим
-    if (!hasMore) return;
+    const observer = new IntersectionObserver(
+      async (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          setLoading(true);
+          try {
+            const response = await fetch(`/api/photos?page=${page}&pageSize=9`);
+            const newImages: PostResult[] = await response.json();
+            if (newImages.length === 0) {
+              setHasMore(false);
+            } else {
+              setImages((prev) => [...prev, ...newImages]);
+              setPage((p) => p + 1);
+            }
+          } catch (error) {
+            console.error("Error fetching more images:", error);
+          } finally {
+            setLoading(false);
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
 
-    const loadMorePhotos = async () => {
-      try {
-        const res = await fetch(
-          `/api/photos?page=${page}&pageSize=${pageSize}`,
-        );
-        if (!res.ok) throw new Error("Ошибка при загрузке фотографий");
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
 
-        const newPhotos: PostResult[] = await res.json();
+    return () => observer.disconnect();
+  }, [page, hasMore, loading]);
 
-        setImages((prev) => {
-          // Фильтруем дубли по id (чтобы ключи оставались уникальными)
-          const existingIds = new Set(prev.map((img) => img.id));
-          const filtered = newPhotos.filter(
-            (photo) => !existingIds.has(photo.id),
-          );
-          return [...prev, ...filtered];
-        });
-
-        // Если пришло меньше pageSize → страниц больше нет
-        if (newPhotos.length < pageSize) setHasMore(false);
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setHasMore(false);
+  // Subscribe to upload events
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'newUpload') {
+        const newImage = JSON.parse(e.newValue || '');
+        if (newImage) {
+          setImages((prev) => [newImage, ...prev]);
+        }
       }
     };
 
-    loadMorePhotos();
-  }, [page, hasMore]);
-
-  // 3) IntersectionObserver: когда <div ref={loaderRef} /> пересекает экран, увеличиваем page
-  useEffect(() => {
-    if (!hasMore) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setPage((prev) => prev + 1);
-        }
-      },
-      {
-        rootMargin: "200px", // подгружает чуть раньше, когда "200px" до конца
-      },
-    );
-
-    if (loaderRef.current) observer.observe(loaderRef.current);
-
-    return () => observer.disconnect();
-  }, [hasMore]);
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   return (
-    <div className="flex flex-col w-full gap-y-4">
+    <>
       <GalleryGrid images={images} />
-      {hasMore && <div ref={loaderRef} className="h-8" />}
-    </div>
+      <div ref={observerTarget} className="h-10" />
+      {loading && (
+        <div className="text-center py-4">Loading more images...</div>
+      )}
+    </>
   );
 }
