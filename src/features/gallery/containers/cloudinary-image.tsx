@@ -33,7 +33,7 @@ export function CloudinaryImage({
     if (!isLoading) {
       setIsLoading(true);
     }
-  }, [imageData.publicId]);
+  }, [imageData.publicId, isLoading]);
 
   const handleLoad = () => {
     setIsLoading(false);

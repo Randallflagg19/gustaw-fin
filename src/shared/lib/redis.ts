@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // Redis отключён для стабильной работы
 // Все функции кэширования работают в no-op режиме
 
@@ -10,22 +11,22 @@ export interface CacheConfig {
 // Утилиты для кэширования с полным fallback (без Redis)
 export const cache = {
     // Получить данные из кэша - всегда возвращаем null (нет кэша)
-    async get<T>(key: string): Promise<T | null> {
+    async get<T>(_key: string): Promise<T | null> {
         return null;
     },
 
     // Сохранить данные в кэш - ничего не делаем
-    async set<T>(key: string, value: T, ttl: number = 300): Promise<void> {
+    async set<T>(_key: string, _value: T, _ttl: number = 300): Promise<void> {
         // No-op
     },
 
     // Удалить из кэша - ничего не делаем
-    async del(key: string): Promise<void> {
+    async del(_key: string): Promise<void> {
         // No-op
     },
 
     // Инвалидировать кэш по паттерну - ничего не делаем
-    async invalidatePattern(pattern: string): Promise<void> {
+    async invalidatePattern(_pattern: string): Promise<void> {
         // No-op
     },
 
