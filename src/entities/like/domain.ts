@@ -7,4 +7,5 @@ export type LikeEntity = {
 
 export type CreateLikeResponse = {
   like: LikeEntity;
+  isLiked: boolean;
 };

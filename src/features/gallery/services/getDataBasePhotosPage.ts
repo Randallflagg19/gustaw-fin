@@ -17,18 +17,31 @@ export async function getDataBasePhotosPage({
   page: number;
   pageSize: number;
 }): Promise<PostResult[]> {
+  // Оптимизированный запрос с использованием новых индексов
   const posts = await prisma.post.findMany({
     skip: (page - 1) * pageSize,
     take: pageSize,
     where: {
-      mediaType: "IMAGE",
+      mediaType: "IMAGE", // Используется индекс idx_posts_media_type
+      mediaUrl: {
+        not: null, // Исключаем посты без изображений
+      },
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: "desc", // Используется индекс idx_posts_media_type_created_at
     },
-    include: {
-      likes: true,
-      comments: true,
+    select: {
+      id: true,
+      mediaUrl: true,
+      publicId: true,
+      createdAt: true,
+      // Оптимизированный подсчет лайков и комментариев
+      _count: {
+        select: {
+          likes: true,
+          comments: true,
+        },
+      },
     },
   });
 
@@ -37,7 +50,7 @@ export async function getDataBasePhotosPage({
     mediaUrl: post.mediaUrl ?? "",
     publicId: post.publicId ?? "",
     createdAt: post.createdAt,
-    likesCount: post.likes.length,
-    commentCount: post.comments.length,
+    likesCount: post._count.likes,
+    commentCount: post._count.comments,
   }));
 }

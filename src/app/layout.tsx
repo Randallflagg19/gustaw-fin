@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Background } from "@/shared/ui/background";
 import { Orbitron } from "next/font/google";
+import { QueryProvider } from "@/shared/providers/query-provider";
 
 const orbitron = Orbitron({
   subsets: ['latin'],
@@ -15,15 +16,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body className={`${orbitron.variable} font-sans antialiased dark min-h-screen flex flex-col grow`}>
-        <Background>
-          <div className="w-full px-4 pt-8">{children}</div>
-        </Background>
+    <html lang="en" className={orbitron.variable}>
+      <body>
+        <QueryProvider>
+          <Background>{children}</Background>
+        </QueryProvider>
       </body>
     </html>
   );
