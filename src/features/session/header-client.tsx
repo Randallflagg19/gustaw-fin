@@ -2,10 +2,13 @@
 
 import Link from "next/link";
 import { PawPrint } from "lucide-react";
+import { Cat } from "@/shared/ui/icons/cat";
 import { Button } from "@/shared/ui/button";
 import { cn } from "@/shared/lib/css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useUserStore from "@/entities/user/model/user-store";
+import { BookingModal } from "@/features/booking/components/booking-modal";
+import { useRouter } from "next/navigation";
 
 type Props = {
   userFromServer: {
@@ -16,13 +19,23 @@ type Props = {
 };
 
 export const HeaderClient = ({ userFromServer }: Props) => {
-  const { setUser } = useUserStore();
+  const { setUser, user } = useUserStore();
+  const router = useRouter();
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   useEffect(() => {
     if (userFromServer) {
       setUser(userFromServer);
     }
   }, [userFromServer, setUser]);
+
+  const handleBookingClick = () => {
+    if (!user) {
+      router.push("/sign-in");
+      return;
+    }
+    setIsBookingModalOpen(true);
+  };
 
   return (
     <header className="max-w-5xl mx-auto px-4 py-6 flex items-start justify-between">
@@ -37,17 +50,34 @@ export const HeaderClient = ({ userFromServer }: Props) => {
         Этот сайт посвящён самому важному существу в галактике.
       </h1>
 
-      <Link href="/sign-in">
+      <div className="flex flex-col gap-2 items-center">
+        <Link href="/sign-in">
+          <Button
+            asChild
+            variant="ghost"
+            size="icon"
+            className={cn("p-2 sm:p-3 hover:bg-slate-700/20 transition-colors rounded-lg")}
+            aria-label="Login"
+          >
+            <PawPrint className="w-12 h-12 sm:w-14 sm:h-14 text-slate-300 hover:text-white transition-colors" />
+          </Button>
+        </Link>
+
         <Button
-          asChild
           variant="ghost"
-          size="icon"
-          className={cn("self-start mt-1 p-2 sm:p-3 hover:bg-slate-700/20 transition-colors")}
-          aria-label="Login"
+          onClick={handleBookingClick}
+          className={cn("w-12 h-12 sm:w-14 sm:h-14 hover:bg-slate-700/20 transition-colors rounded-lg flex items-center justify-center p-0")}
+          aria-label="Записаться на прием"
+          title="Записаться погладить кота - 1000₽"
         >
-          <PawPrint className="w-12 h-12 sm:w-14 sm:h-14 text-slate-300 hover:text-white transition-colors" />
+          <Cat className="mt-6 ml-4 w-12 h-12 sm:w-12 sm:h-12 text-pink-300 hover:text-pink-200 transition-colors" />
         </Button>
-      </Link>
+      </div>
+
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+      />
     </header>
   );
 };
