@@ -33,11 +33,11 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
             if (!response.ok) throw new Error('Ошибка загрузки слотов');
 
             const slots = await response.json();
-            setAvailableSlots(slots.map((slot: any) => ({
+            setAvailableSlots(slots.map((slot: { datetime: string; available: boolean }) => ({
                 ...slot,
                 datetime: new Date(slot.datetime)
             })));
-        } catch (error) {
+        } catch {
             setMessage({ type: 'error', text: 'Ошибка загрузки доступных времен' });
         } finally {
             setLoading(false);
@@ -185,8 +185,8 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                     {/* Сообщения */}
                     {message && (
                         <div className={`text-center text-sm p-2 rounded ${message.type === 'success'
-                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                            : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                             }`}>
                             {message.text}
                         </div>
