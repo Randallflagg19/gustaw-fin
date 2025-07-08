@@ -1,0 +1,3 @@
+: 1751976964:0;pnpm build
+: 1751977073:0;git checkout -b 'production'
+: 1751977078:0;git add .
