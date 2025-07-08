@@ -14,8 +14,8 @@
 /coverage
 
 # next.js
-/.next/
-/out/
+# /.next/
+# /out/
 
 # production
 # /build
@@ -37,8 +37,8 @@ yarn-error.log*
 .vercel
 
 # typescript
-*.tsbuildinfo
-next-env.d.ts
+# *.tsbuildinfo 
+# next-env.d.ts
 
 # Игнорирование файла page.tsx
 /src/app/test/page.ts
