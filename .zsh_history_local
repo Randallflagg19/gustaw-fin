@@ -1,3 +1,7 @@
 : 1751976964:0;pnpm build
 : 1751977073:0;git checkout -b 'production'
 : 1751977078:0;git add .
+: 1751977095:0;git commit -m 'prod'
+: 1751977099:0;git push
+: 1751977107:0;git push --set-upstream origin production
+: 1751977209:0;git add .
