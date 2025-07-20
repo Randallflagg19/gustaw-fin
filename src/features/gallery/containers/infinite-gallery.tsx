@@ -30,10 +30,13 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
         if (entries[0].isIntersecting && hasMore && !loading) {
           setLoading(true);
           try {
-            const response = await fetch(`/api/photos?page=${page}&pageSize=9`, {
-              // Увеличиваем таймаут до 30 секунд для медленных соединений
-              signal: AbortSignal.timeout(30000)
-            });
+            const response = await fetch(
+              `/api/photos?page=${page}&pageSize=9`,
+              {
+                // Увеличиваем таймаут до 30 секунд для медленных соединений
+                signal: AbortSignal.timeout(30000),
+              },
+            );
             const newImages: PostResult[] = await response.json();
             if (newImages.length === 0) {
               setHasMore(false);
@@ -48,7 +51,7 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
           }
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (observerTarget.current) {
@@ -61,21 +64,31 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
   // Subscribe to upload events
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'newUpload') {
-        const newImage = JSON.parse(e.newValue || '');
+      if (e.key === "newUpload") {
+        const newImage = JSON.parse(e.newValue || "");
         if (newImage) {
           setImages((prev) => [newImage, ...prev]);
         }
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
+
+  // Фильтрация на уникальность по publicId
+  const uniqueImages = React.useMemo(() => {
+    const seen = new Set<string>();
+    return images.filter((img) => {
+      if (seen.has(img.publicId)) return false;
+      seen.add(img.publicId);
+      return true;
+    });
+  }, [images]);
 
   return (
     <>
-      <GalleryGrid images={images} />
+      <GalleryGrid images={uniqueImages} />
       <div ref={observerTarget} className="h-10" />
       {loading && (
         <div className="text-center py-4">Loading more images...</div>

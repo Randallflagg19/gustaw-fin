@@ -2,9 +2,9 @@
   "/_not-found/page": "/_not-found",
   "/api/bookings/route": "/api/bookings",
   "/favicon.ico/route": "/favicon.ico",
-  "/api/photos/route": "/api/photos",
   "/api/likes/photosSummary/route": "/api/likes/photosSummary",
-  "/(auth)/sign-in/page": "/sign-in",
+  "/api/photos/route": "/api/photos",
   "/(auth)/sign-up/page": "/sign-up",
+  "/(auth)/sign-in/page": "/sign-in",
   "/page": "/"
 }
