@@ -4,7 +4,7 @@
   "/favicon.ico/route": "/favicon.ico",
   "/api/likes/photosSummary/route": "/api/likes/photosSummary",
   "/api/photos/route": "/api/photos",
-  "/(auth)/sign-up/page": "/sign-up",
   "/(auth)/sign-in/page": "/sign-in",
+  "/(auth)/sign-up/page": "/sign-up",
   "/page": "/"
 }

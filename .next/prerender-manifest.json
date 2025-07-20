@@ -1,6 +1,30 @@
 {
   "version": 4,
   "routes": {
+    "/sign-up": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/sign-up",
+      "dataRoute": "/sign-up.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/favicon.ico": {
       "initialHeaders": {
         "cache-control": "public, max-age=0, must-revalidate",
@@ -53,37 +77,13 @@
         "x-next-revalidated-tags",
         "x-next-revalidate-tag-token"
       ]
-    },
-    "/sign-up": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/sign-up",
-      "dataRoute": "/sign-up.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "b679a552938b2a97d1fe96273edaa15c",
-    "previewModeSigningKey": "36c0abebe385df99cfc74cc67160b58165d9178568cacd754e040e7ad03f0372",
-    "previewModeEncryptionKey": "51a81f5980eb70a183e3e5c20235666fe8254b2ec65e36421a130a462f0cdf9f"
+    "previewModeId": "06c454df75f91149f6aa19c0d774c518",
+    "previewModeSigningKey": "b1513646ee305b0e4c57b008953236159d03b0975e326ea17cde6807246a50fa",
+    "previewModeEncryptionKey": "54b3a6e4350ca4d86c3788a41cf2d6de5d8cd6abe595c1f090e031803abb09ee"
   }
 }
