@@ -11,7 +11,7 @@ const formDataSchema = z.object({
 type SignInSuccess = {
   user: {
     id: string;
-    login: string;
+    login: string | null;
     role: "USER" | "ADMIN";
   };
 };
