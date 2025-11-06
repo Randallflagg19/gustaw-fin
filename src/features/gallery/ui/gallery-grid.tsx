@@ -5,14 +5,19 @@ import { ImageGrid } from "@/shared/image-grid";
 import { CloudinaryImage } from "@/features/gallery/containers/cloudinary-image";
 import useUserStore from "@/entities/user/model/user-store";
 import { PostResult } from "@/features/gallery/services/getDataBasePhotosPage";
-import { useLikesSummary } from "../../likes/hooks/useLikesSummary"; // Импортируем хук
+import { useLikesSummary } from "../../likes/hooks/useLikesSummary";
+import { useSession } from "next-auth/react";
 
 export function GalleryGrid({
   images,
 }: {
   images: (PostResult & { id: string })[];
 }) {
-  const user = useUserStore((s) => s.user);
+  // Поддержка обеих систем аутентификации
+  const zustandUser = useUserStore((s) => s.user);
+  const { data: session } = useSession();
+  const nextAuthUser = session?.user;
+  const user = nextAuthUser || zustandUser;
 
   // Используем кастомный хук
   useLikesSummary(images, user?.id);

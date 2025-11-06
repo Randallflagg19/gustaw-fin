@@ -3,6 +3,7 @@ import "./globals.css";
 import { Background } from "@/shared/ui/background";
 import { Orbitron } from "next/font/google";
 import { QueryProvider } from "@/shared/providers/query-provider";
+import { AuthProvider } from "@/shared/providers/session-provider";
 
 const orbitron = Orbitron({
   subsets: ['latin'],
@@ -22,9 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={orbitron.variable}>
       <body>
+        <AuthProvider>
         <QueryProvider>
           <Background>{children}</Background>
         </QueryProvider>
+        </AuthProvider>
       </body>
     </html>
   );

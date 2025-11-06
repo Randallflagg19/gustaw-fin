@@ -8,6 +8,7 @@ import { AuthFields } from "@/features/auth/ui/fields";
 import { SubmitButton } from "@/features/auth/ui/submit-button";
 import { ErrorMessage } from "@/features/auth/ui/error-message";
 import { signUpAction } from "@/features/auth/actions/sign-up";
+import { GoogleSignInButton } from "@/features/auth/ui/google-signin-button";
 
 export function SignUpForm() {
   const [formState, action, isPending] = useActionState(
@@ -22,7 +23,18 @@ export function SignUpForm() {
       action={action}
       fields={<AuthFields />}
       actions={
-        <SubmitButton isPending={isPending}> Зарегистрироваться </SubmitButton>
+        <div className="space-y-4">
+          <SubmitButton isPending={isPending}> Зарегистрироваться </SubmitButton>
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">или</span>
+            </div>
+          </div>
+          <GoogleSignInButton />
+        </div>
       }
       error={<ErrorMessage error={formState} />}
       link={

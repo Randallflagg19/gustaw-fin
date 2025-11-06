@@ -8,6 +8,7 @@ import { PostResult } from "@/features/gallery/services/getDataBasePhotosPage";
 import useUserStore from "@/entities/user/model/user-store";
 import useLikesStore from "@/entities/like/model/likes-store";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
   imageData: PostResult;
@@ -20,9 +21,22 @@ export function CloudinaryImage({
   ...rest
 }: CloudinaryImageProps) {
   const router = useRouter();
-  const user = useUserStore((s) => s.user);
-  const likeInfoFromStore = useLikesStore((store) => store.likes[imageData.publicId]);
-  const likeInfo = likeInfoFromStore ?? { count: imageData.likesCount, isLiked: false };
+  
+  // Поддержка обеих систем аутентификации
+  const zustandUser = useUserStore((s) => s.user);
+  const { data: session } = useSession();
+  const nextAuthUser = session?.user;
+  
+  // Приоритет: NextAuth > Zustand (для плавного перехода)
+  const user = nextAuthUser || zustandUser;
+  
+  const likeInfoFromStore = useLikesStore(
+    (store) => store.likes[imageData.publicId],
+  );
+  const likeInfo = likeInfoFromStore ?? {
+    count: imageData.likesCount,
+    isLiked: false,
+  };
   const toggleLike = useLikesStore((s) => s.toggleLike);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -89,12 +103,11 @@ export function CloudinaryImage({
           alt=""
         />
 
-
         <div className="absolute top-2 left-2 flex items-center gap-2">
           <button
             onClick={handleLikeClick}
             disabled={isLikeProcessing}
-            className={`text-white hover:scale-110 transition-transform ${isLikeProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`text-white hover:scale-110 transition-transform ${isLikeProcessing ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             {likeInfo.isLiked ? (
               <FullHeart className="text-red-500 hover:text-red-600" />
@@ -106,7 +119,6 @@ export function CloudinaryImage({
             {likeInfo.count}
           </span>
         </div>
-
       </div>
     </div>
   );

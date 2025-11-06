@@ -6,6 +6,7 @@ import { GalleryGrid } from "@/features/gallery/ui/gallery-grid";
 import { PostResult } from "@/features/gallery/services/getDataBasePhotosPage";
 import { useLikesSummary } from "@/features/likes/hooks/useLikesSummary";
 import useUserStore from "@/entities/user/model/user-store";
+import { useSession } from "next-auth/react";
 
 interface InfiniteGalleryProps {
   initialImages: PostResult[];
@@ -18,10 +19,13 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
   const [hasMore, setHasMore] = useState(true);
   const observerTarget = useRef<HTMLDivElement>(null);
 
-  // Получаем текущего пользователя из zustand
-  const user = useUserStore((s) => s.user);
+  // Поддержка обеих систем аутентификации
+  const zustandUser = useUserStore((s) => s.user);
+  const { data: session } = useSession();
+  const nextAuthUser = session?.user;
+  const user = nextAuthUser || zustandUser;
 
-  // 1) Вызов хука для подгрузки лайков (на верхнем уровне компонента!)
+  // Вызов хука для подгрузки лайков
   useLikesSummary(images, user?.id);
 
   useEffect(() => {
