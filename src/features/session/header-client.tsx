@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 type Props = {
   userFromServer: {
     id: string;
-    login: string;
+    login: string | null;
     role: "USER" | "ADMIN";
   } | null;
 };

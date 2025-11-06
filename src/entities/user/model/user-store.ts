@@ -3,7 +3,7 @@ import { create } from "zustand";
 export interface IUser {
   id: string;
   role: "USER" | "ADMIN";
-  login: string;
+  login: string | null;
 }
 
 export interface IUserStore {
