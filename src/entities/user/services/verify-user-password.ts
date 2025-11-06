@@ -15,6 +15,11 @@ export const verifyUserPassword = async ({
     return left("Неверный логин или пароль" as const);
   }
 
+  // OAuth пользователи не имеют passwordHash
+  if (!user.passwordHash) {
+    return left("Неверный логин или пароль" as const);
+  }
+
   const isCompared = await passwordService.comparePassword({
     hash: user.passwordHash,
     salt: user.salt,
