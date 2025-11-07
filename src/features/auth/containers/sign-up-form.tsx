@@ -9,12 +9,19 @@ import { SubmitButton } from "@/features/auth/ui/submit-button";
 import { ErrorMessage } from "@/features/auth/ui/error-message";
 import { signUpAction } from "@/features/auth/actions/sign-up";
 import { GoogleSignInButton } from "@/features/auth/ui/google-signin-button";
+import { GitHubSignInButton } from "@/features/auth/ui/github-signin-button";
+import { SignOutButton } from "@/features/auth/ui/sign-out-button";
+import useUserStore from "@/entities/user/model/user-store";
+import { useSession } from "next-auth/react";
 
 export function SignUpForm() {
   const [formState, action, isPending] = useActionState(
     signUpAction,
     right(undefined),
   );
+  const currentUser = useUserStore((state) => state.user);
+  const { data: session } = useSession();
+  const isLoggedIn = Boolean(session?.user || currentUser);
 
   return (
     <AuthFormLayout
@@ -24,7 +31,9 @@ export function SignUpForm() {
       fields={<AuthFields />}
       actions={
         <div className="space-y-4">
-          <SubmitButton isPending={isPending}> Зарегистрироваться </SubmitButton>
+          <SubmitButton isPending={isPending || isLoggedIn}>
+            Зарегистрироваться
+          </SubmitButton>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300" />
@@ -33,7 +42,11 @@ export function SignUpForm() {
               <span className="px-2 bg-white text-gray-500">или</span>
             </div>
           </div>
-          <GoogleSignInButton />
+          <div className="space-y-3">
+            <GoogleSignInButton />
+            <GitHubSignInButton />
+            {isLoggedIn ? <SignOutButton /> : null}
+          </div>
         </div>
       }
       error={<ErrorMessage error={formState} />}
