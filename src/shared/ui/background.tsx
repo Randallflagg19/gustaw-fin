@@ -6,11 +6,14 @@ import { useEffect, useState } from "react";
 const BG_PUBLIC_ID = "aweqz8dqpfvpkyqhtpfx";
 
 // Cloudinary трансформации
-const getCloudinaryUrl = (publicId: string, options: {
-  blur?: boolean;
-  width?: number;
-  quality?: number;
-} = {}) => {
+const getCloudinaryUrl = (
+  publicId: string,
+  options: {
+    blur?: boolean;
+    width?: number;
+    quality?: number;
+  } = {},
+) => {
   const transformations = [];
 
   if (options.blur) {
@@ -50,7 +53,7 @@ export function Background({ children, className = "" }: BackgroundProps) {
     const width = window.innerWidth <= 768 ? 1024 : 1920;
     finalImg.src = getCloudinaryUrl(BG_PUBLIC_ID, {
       width,
-      quality: 75 // Reduced quality for faster loading while maintaining good appearance
+      quality: 75, // Reduced quality for faster loading while maintaining good appearance
     });
     finalImg.onload = () => {
       setFinalImageLoaded(true);
@@ -61,9 +64,9 @@ export function Background({ children, className = "" }: BackgroundProps) {
 
   const currentBgUrl = finalImageLoaded
     ? getCloudinaryUrl(BG_PUBLIC_ID, {
-      width: window.innerWidth <= 768 ? 1024 : 1920,
-      quality: 75
-    })
+        width: window.innerWidth <= 768 ? 1024 : 1920,
+        quality: 75,
+      })
     : loaded
       ? getCloudinaryUrl(BG_PUBLIC_ID, { blur: true })
       : "";
@@ -83,10 +86,10 @@ export function Background({ children, className = "" }: BackgroundProps) {
         transition-[background-image] duration-500
         ${className}`}
       style={{
-        backgroundImage: currentBgUrl ? `url(${currentBgUrl})` : 'none',
+        backgroundImage: currentBgUrl ? `url(${currentBgUrl})` : "none",
       }}
     >
       {children}
     </div>
   );
-} 
+}

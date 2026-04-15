@@ -37,7 +37,7 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
             const response = await fetch(
               `/api/photos?page=${page}&pageSize=9`,
               {
-                // Увеличиваем таймаут до 30 секунд для медленных соединений
+              // Увеличиваем таймаут до 30 секунд для медленных соединений
                 signal: AbortSignal.timeout(30000),
               },
             );
