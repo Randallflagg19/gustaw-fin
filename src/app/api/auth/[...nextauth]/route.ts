@@ -4,7 +4,7 @@ import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/shared/lib/db";
 
-const handler = NextAuth({
+export const authOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -19,13 +19,14 @@ const handler = NextAuth({
   callbacks: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async session({ session, user }: { session: any; user: any }) {
-      // Добавляем ID пользователя в сессию
       if (session.user) {
         session.user.id = user.id;
       }
       return session;
     },
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
