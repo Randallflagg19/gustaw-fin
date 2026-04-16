@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
 import { bookingService } from "@/entities/booking/services/booking-service";
 import { sessionService } from "@/entities/user/server";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/shared/config/auth";
 
 export async function POST(request: NextRequest) {
   try {

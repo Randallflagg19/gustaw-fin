@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/shared/config/auth";
 import { sessionService } from "@/entities/user/server";
 import { BookingForm } from "@/features/booking/components/booking-form";
 
