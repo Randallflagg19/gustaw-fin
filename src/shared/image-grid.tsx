@@ -11,20 +11,9 @@ export function ImageGrid({
   getImage: (imageData: PostResult, index: number) => ReactNode;
 }) {
   return (
-    <div
-      className="pt-8
-                    columns-1
-                    sm:columns-2
-                    md:columns-3
-                    gap-4
-                    mx-auto
-                    px-4
-                    max-w-[1280px]"
-    >
+    <div className="mx-auto grid grid-cols-1 gap-5 pt-2 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
       {images.map((img, i) => (
-        <div key={img.publicId} className="break-inside-avoid mb-4">
-          {getImage(img, i)}
-        </div>
+        <div key={img.publicId}>{getImage(img, i)}</div>
       ))}
     </div>
   );

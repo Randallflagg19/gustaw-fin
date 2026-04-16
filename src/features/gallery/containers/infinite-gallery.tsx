@@ -1,4 +1,3 @@
-// features/gallery/containers/infinite-gallery.tsx
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -19,13 +18,11 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
   const [hasMore, setHasMore] = useState(true);
   const observerTarget = useRef<HTMLDivElement>(null);
 
-  // Поддержка обеих систем аутентификации
   const zustandUser = useUserStore((s) => s.user);
   const { data: session } = useSession();
   const nextAuthUser = session?.user;
   const user = nextAuthUser || zustandUser;
 
-  // Вызов хука для подгрузки лайков
   useLikesSummary(images, user?.id);
 
   useEffect(() => {
@@ -37,11 +34,12 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
             const response = await fetch(
               `/api/photos?page=${page}&pageSize=9`,
               {
-              // Увеличиваем таймаут до 30 секунд для медленных соединений
                 signal: AbortSignal.timeout(30000),
               },
             );
+
             const newImages: PostResult[] = await response.json();
+
             if (newImages.length === 0) {
               setHasMore(false);
             } else {
@@ -65,7 +63,6 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
     return () => observer.disconnect();
   }, [page, hasMore, loading]);
 
-  // Subscribe to upload events
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === "newUpload") {
@@ -80,7 +77,6 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  // Фильтрация на уникальность по publicId
   const uniqueImages = React.useMemo(() => {
     const seen = new Set<string>();
     return images.filter((img) => {
@@ -95,7 +91,7 @@ export function InfiniteGallery({ initialImages }: InfiniteGalleryProps) {
       <GalleryGrid images={uniqueImages} />
       <div ref={observerTarget} className="h-10" />
       {loading && (
-        <div className="text-center py-4">Loading more images...</div>
+        <div className="py-4 text-center">Loading more images...</div>
       )}
     </>
   );

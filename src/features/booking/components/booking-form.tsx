@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/shared/ui/button";
 import { BOOKING_PRICE } from "@/entities/booking/domain";
+import { cn } from "@/shared/lib/css";
 
 interface BookingSlot {
   datetime: Date;
@@ -106,49 +107,85 @@ export function BookingForm() {
     });
   };
 
+  const choiceButtonClass = (isActive: boolean) =>
+    cn(
+      "h-12 rounded-full border text-xs tracking-[0.08em] transition-all duration-200",
+      "shadow-none",
+      isActive
+        ? "border-[#e1bb72] bg-[#e1bb72] text-[#1a140f] hover:bg-[#ebc983]"
+        : "border-[#8b6a3e]/55 bg-[#120d0a]/85 text-[#f3dfb6] hover:border-[#c89d5c] hover:bg-[#1a130f]",
+    );
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="text-center">
-        <h1 className="text-3xl font-semibold text-white sm:text-4xl">
+        <p className="mb-3 text-[0.72rem] uppercase tracking-[0.38em] text-[#d7b26d]">
+          Private Audience
+        </p>
+
+        <h1
+          className="text-4xl leading-[1.08] text-white sm:text-5xl"
+          style={{
+            fontFamily: 'Georgia, "Times New Roman", serif',
+            textShadow: "0 2px 18px rgba(0,0,0,0.38)",
+          }}
+        >
           Записаться на аудиенцию к коту
         </h1>
-        <p className="mt-2 text-sm text-zinc-300">
-          Цена: {BOOKING_PRICE}₽ | Длительность: 1 час
+
+        <p className="mt-4 text-base leading-7 text-zinc-300 sm:text-lg">
+          Выберите день и свободный час, чтобы официально попасть на приём к
+          Густаву.
+        </p>
+
+        <p className="mt-2 text-sm uppercase tracking-[0.18em] text-[#d7b26d]">
+          Цена: {BOOKING_PRICE}₽ · Длительность: 1 час
+        </p>
+
+        <p className="mt-4 text-sm text-zinc-300">
+          <a
+            href="tel:+79960375088"
+            className="text-[#e1bb72] underline decoration-[#e1bb72]/40 underline-offset-4 hover:text-[#f0cc8c]"
+          >
+            +7 996 037-50-88
+          </a>
         </p>
       </div>
 
-      <div className="rounded-3xl border border-[#b88d4f]/40 bg-black/35 p-5 shadow-[0_0_40px_rgba(0,0,0,0.25)] backdrop-blur-sm sm:p-6">
-        <div className="space-y-5">
+      <div className="rounded-[2rem] border border-[#b88d4f]/40 bg-black/35 p-6 shadow-[0_0_40px_rgba(0,0,0,0.25)] backdrop-blur-sm sm:p-8">
+        <div className="space-y-8">
           <div>
-            <h3 className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-[#f3d89b]">
+            <h3 className="mb-4 text-sm font-medium uppercase tracking-[0.28em] text-[#f3d89b]">
               Выберите дату
             </h3>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {generateCalendar().map((date, index) => (
-                <Button
-                  key={index}
-                  variant={
-                    selectedDate?.toDateString() === date.toDateString()
-                      ? "default"
-                      : "outline"
-                  }
-                  size="sm"
-                  onClick={() => handleDateSelect(date)}
-                  className="text-xs"
-                >
-                  {date.toLocaleDateString("ru-RU", {
-                    day: "numeric",
-                    month: "short",
-                    weekday: "short",
-                  })}
-                </Button>
-              ))}
+
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {generateCalendar().map((date, index) => {
+                const isActive =
+                  selectedDate?.toDateString() === date.toDateString();
+
+                return (
+                  <Button
+                    key={index}
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleDateSelect(date)}
+                    className={choiceButtonClass(isActive)}
+                  >
+                    {date.toLocaleDateString("ru-RU", {
+                      day: "numeric",
+                      month: "short",
+                      weekday: "short",
+                    })}
+                  </Button>
+                );
+              })}
             </div>
           </div>
 
           {selectedDate && (
             <div>
-              <h3 className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-[#f3d89b]">
+              <h3 className="mb-4 text-sm font-medium uppercase tracking-[0.28em] text-[#f3d89b]">
                 Доступное время на {selectedDate.toLocaleDateString("ru-RU")}
               </h3>
 
@@ -157,43 +194,50 @@ export function BookingForm() {
                   Загрузка...
                 </div>
               ) : availableSlots.length === 0 ? (
-                <div className="py-4 text-center text-zinc-400">
+                <div className="rounded-2xl border border-[#8b6a3e]/35 bg-[#120d0a]/65 py-4 text-center text-zinc-400">
                   Нет доступных слотов на эту дату
                 </div>
               ) : (
-                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {availableSlots.map((slot, index) => (
-                    <Button
-                      key={index}
-                      variant={
-                        selectedSlot?.getTime() === slot.datetime.getTime()
-                          ? "default"
-                          : "outline"
-                      }
-                      size="sm"
-                      disabled={!slot.available}
-                      onClick={() => setSelectedSlot(slot.datetime)}
-                      className="text-xs"
-                    >
-                      {formatTime(slot.datetime)}
-                      {!slot.available && " (занято)"}
-                    </Button>
-                  ))}
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  {availableSlots.map((slot, index) => {
+                    const isActive =
+                      selectedSlot?.getTime() === slot.datetime.getTime();
+
+                    return (
+                      <Button
+                        key={index}
+                        variant="ghost"
+                        size="sm"
+                        disabled={!slot.available}
+                        onClick={() => setSelectedSlot(slot.datetime)}
+                        className={cn(
+                          choiceButtonClass(isActive),
+                          !slot.available &&
+                            "cursor-not-allowed border-[#5a4830]/30 bg-[#0f0b09]/45 text-[#7e6d56] opacity-60 hover:bg-[#0f0b09]/45",
+                        )}
+                      >
+                        {formatTime(slot.datetime)}
+                        {!slot.available && " (занято)"}
+                      </Button>
+                    );
+                  })}
                 </div>
               )}
             </div>
           )}
 
           {selectedSlot && (
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div className="text-center text-sm text-zinc-300">
                 Выбрано: {selectedSlot.toLocaleDateString("ru-RU")} в{" "}
                 {formatTime(selectedSlot)}
               </div>
+
               <Button
                 onClick={handleBooking}
                 disabled={loading}
-                className="w-full"
+                variant="ghost"
+                className="h-14 w-full rounded-full border border-[#e1bb72] bg-[#e1bb72] text-base text-[#1a140f] hover:bg-[#ebc983]"
               >
                 {loading ? "Записываем..." : `Записаться за ${BOOKING_PRICE}₽`}
               </Button>
@@ -202,11 +246,12 @@ export function BookingForm() {
 
           {message && (
             <div
-              className={`rounded-xl p-3 text-center text-sm ${
+              className={cn(
+                "rounded-2xl border p-4 text-center text-sm",
                 message.type === "success"
-                  ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                  : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-              }`}
+                  ? "border-emerald-500/30 bg-emerald-950/30 text-emerald-200"
+                  : "border-rose-500/30 bg-rose-950/30 text-rose-200",
+              )}
             >
               {message.text}
             </div>

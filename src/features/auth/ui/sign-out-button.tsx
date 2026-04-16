@@ -32,8 +32,8 @@ export function SignOutButton() {
   return (
     <Button
       type="button"
-      variant="secondary"
-      className="w-full"
+      variant="ghost"
+      className="h-12 w-full rounded-2xl border border-[#8b6a3e]/40 bg-[#17110d]/70 text-[#d4bf97] hover:border-[#b98d53] hover:bg-[#201611]"
       onClick={handleSignOut}
       disabled={isPending}
     >

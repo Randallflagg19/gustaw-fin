@@ -45,14 +45,18 @@ export function SignInForm() {
       actions={
         <div className="space-y-4">
           <SubmitButton isPending={isPending || isLoggedIn}>Войти</SubmitButton>
-          <div className="relative">
+
+          <div className="relative py-1">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
+              <div className="w-full border-t border-[#6f5735]/45" />
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">или</span>
+            <div className="relative flex justify-center">
+              <span className="bg-[#120d0a] px-3 text-[0.72rem] uppercase tracking-[0.22em] text-[#9f8a68]">
+                или
+              </span>
             </div>
           </div>
+
           <div className="space-y-3">
             <GoogleSignInButton />
             <GitHubSignInButton />
