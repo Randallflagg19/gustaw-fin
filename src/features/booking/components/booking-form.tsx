@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/shared/ui/button";
 import { BOOKING_PRICE } from "@/entities/booking/domain";
 import { cn } from "@/shared/lib/css";
+import { editorialHeadingFont } from "@/shared/ui/typography";
 
 interface BookingSlot {
   datetime: Date;
@@ -124,9 +125,9 @@ export function BookingForm() {
         </p>
 
         <h1
-          className="text-4xl leading-[1.08] text-white sm:text-5xl"
+          className="text-4xl leading-[1.08] text-[#F4E9D2] sm:text-5xl"
           style={{
-            fontFamily: 'Georgia, "Times New Roman", serif',
+            ...editorialHeadingFont,
             textShadow: "0 2px 18px rgba(0,0,0,0.38)",
           }}
         >

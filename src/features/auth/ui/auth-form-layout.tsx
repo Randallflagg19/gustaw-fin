@@ -1,5 +1,6 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/ui/card";
 import React from "react";
+import { editorialHeadingFont } from "@/shared/ui/typography";
 
 export function AuthFormLayout({
   actions,
@@ -26,9 +27,9 @@ export function AuthFormLayout({
         </p>
 
         <h1
-          className="text-4xl leading-[1.08] text-white"
+          className="text-4xl leading-[1.08] text-[#F4E9D2]"
           style={{
-            fontFamily: 'Georgia, "Times New Roman", serif',
+            ...editorialHeadingFont,
             textShadow: "0 2px 18px rgba(0,0,0,0.38)",
           }}
         >

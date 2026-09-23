@@ -9,6 +9,7 @@ import useUserStore from "@/entities/user/model/user-store";
 import useLikesStore from "@/entities/like/model/likes-store";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { likeCountFont } from "@/shared/ui/typography";
 
 type CloudinaryImageProps = Omit<CldImageProps, "src"> & {
   imageData: PostResult;
@@ -82,23 +83,35 @@ export function CloudinaryImage({
           onError={handleError}
         />
 
-        <div className="absolute left-3 top-3 z-30 flex items-center gap-2 rounded-full border border-white/15 bg-black/35 px-3 py-2 backdrop-blur-sm">
+        <div
+          className={`absolute left-3 top-3 z-30 flex items-center gap-2 rounded-full border px-3 py-2 backdrop-blur-sm transition-[border-color,box-shadow] duration-200 ${
+            likeInfo.isLiked
+              ? "border-[#FFAD6B]/30 bg-black/45 shadow-[0_0_18px_rgba(255,173,107,0.18)]"
+              : "border-[#F4E9D2]/15 bg-black/35"
+          }`}
+        >
           <button
             type="button"
             onClick={handleLikeClick}
             disabled={isLikeProcessing}
-            className={`text-white transition hover:scale-110 ${
-              isLikeProcessing ? "cursor-not-allowed opacity-50" : ""
-            }`}
+            aria-label={
+              likeInfo.isLiked
+                ? "Убрать отметку нравится"
+                : "Отметить как понравившееся"
+            }
+            aria-pressed={likeInfo.isLiked}
+            className={`transition-transform duration-150 ease-out hover:scale-110 active:scale-90 motion-reduce:transform-none ${
+              likeInfo.isLiked ? "text-[#FFAD6B]" : "text-[#F4E9D2]"
+            } ${isLikeProcessing ? "cursor-not-allowed opacity-50" : ""}`}
           >
-            {likeInfo.isLiked ? (
-              <FullHeart className="text-red-500 hover:text-red-400" />
-            ) : (
-              <EmptyHeart className="hover:text-red-400" />
-            )}
+            {likeInfo.isLiked ? <FullHeart /> : <EmptyHeart />}
           </button>
 
-          <span className="text-sm font-semibold tracking-wide text-white [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)]">
+          <span
+            className={`${likeCountFont.className} text-sm tracking-wide [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] ${
+              likeInfo.isLiked ? "text-[#FFAD6B]" : "text-[#F4E9D2]"
+            }`}
+          >
             {likeInfo.count}
           </span>
         </div>

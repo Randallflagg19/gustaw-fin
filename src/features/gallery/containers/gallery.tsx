@@ -5,6 +5,7 @@ import {
 } from "@/features/gallery/services/getDataBasePhotosPage";
 import { UploadWrapper } from "@/features/gallery/containers/upload-wrapper";
 import { InfiniteGallery } from "@/features/gallery/containers/infinite-gallery";
+import { editorialHeadingFont } from "@/shared/ui/typography";
 
 export const dynamic = "force-dynamic";
 
@@ -21,8 +22,8 @@ export async function Gallery() {
       <div className="mx-auto w-full max-w-6xl px-4">
         <div className="mb-6 sm:mb-8">
           <h2
-            className="text-3xl leading-[1.08] text-white sm:text-5xl"
-            style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+            className="text-3xl leading-[1.08] text-[#F4E9D2] sm:text-5xl"
+            style={editorialHeadingFont}
           >
             Галерея Густава
           </h2>

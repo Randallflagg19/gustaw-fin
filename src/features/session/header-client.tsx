@@ -9,6 +9,7 @@ import { cn } from "@/shared/lib/css";
 import { useEffect } from "react";
 import useUserStore from "@/entities/user/model/user-store";
 import { useRouter } from "next/navigation";
+import { editorialHeadingFont } from "@/shared/ui/typography";
 
 type Props = {
   userFromServer: {
@@ -36,13 +37,14 @@ export const HeaderClient = ({ userFromServer }: Props) => {
     <header className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-6">
       <div className="flex flex-col gap-6">
         <h1
-          className="max-w-4xl text-4xl font-medium leading-tight text-white sm:text-5xl md:text-6xl"
+          className="max-w-5xl text-4xl font-medium leading-tight text-[#F4E9D2] sm:text-5xl md:text-6xl"
           style={{
-            fontFamily: 'Georgia, "Times New Roman", serif',
+            ...editorialHeadingFont,
             textShadow: "0 2px 16px rgba(0,0,0,0.55)",
           }}
         >
-          Этот сайт посвящён самому важному существу в галактике.
+          Этот сайт посвящён самому
+          <br className="hidden lg:block" /> важному существу в галактике.
         </h1>
 
         <div className="flex flex-wrap gap-3">
