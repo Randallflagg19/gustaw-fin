@@ -3,7 +3,7 @@
 import { CldImage, CldImageProps } from "next-cloudinary";
 import { EmptyHeart } from "@/shared/ui/icons/empty-heart";
 import { FullHeart } from "@/shared/ui/icons/full-heart";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PostResult } from "@/features/gallery/services/getDataBasePhotosPage";
 import useUserStore from "@/entities/user/model/user-store";
 import useLikesStore from "@/entities/like/model/likes-store";
@@ -36,24 +36,12 @@ export function CloudinaryImage({
   };
   const toggleLike = useLikesStore((s) => s.toggleLike);
 
-  const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [isLikeProcessing, setIsLikeProcessing] = useState(false);
-
-  useEffect(() => {
-    setIsLoading(true);
-    setHasError(false);
-  }, [imageData.publicId]);
-
-  const handleLoad = () => {
-    setIsLoading(false);
-    setHasError(false);
-  };
 
   const handleError = () => {
     console.error(`Failed to load image ${imageData.publicId}`);
     setHasError(true);
-    setIsLoading(false);
   };
 
   const handleLikeClick = async () => {
@@ -77,7 +65,7 @@ export function CloudinaryImage({
 
   if (hasError) {
     return (
-      <div className="flex aspect-[4/5] w-full items-center justify-center rounded-[24px] bg-zinc-900/70">
+      <div className="flex min-h-48 w-full items-center justify-center rounded-[24px] bg-zinc-900/70">
         <p className="text-zinc-400">Изображение недоступно</p>
       </div>
     );
@@ -85,17 +73,12 @@ export function CloudinaryImage({
 
   return (
     <div className="group relative overflow-hidden rounded-[24px] border border-[#b88d4f]/25 bg-[#120d0a] shadow-[0_18px_50px_rgba(0,0,0,0.30)]">
-      {isLoading && (
-        <div className="absolute inset-0 z-20 animate-pulse bg-zinc-800/70" />
-      )}
-
-      <div className="relative aspect-[4/5] overflow-hidden bg-[#120d0a]">
+      <div className="relative overflow-hidden bg-[#120d0a]">
         <CldImage
           {...rest}
           src={imageData.publicId}
           alt="Фото Густава"
-          className="h-full w-full object-contain transition duration-300"
-          onLoad={handleLoad}
+          className="block h-auto w-full"
           onError={handleError}
         />
 
