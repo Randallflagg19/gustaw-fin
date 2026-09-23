@@ -6,13 +6,40 @@ import { QueryProvider } from "@/shared/providers/query-provider";
 import { AuthProvider } from "@/shared/providers/session-provider";
 
 const orbitron = Orbitron({
-  subsets: ['latin'],
-  variable: '--font-orbitron',
+  subsets: ["latin"],
+  variable: "--font-orbitron",
 });
 
 export const metadata: Metadata = {
-  title: "Gustaw",
-  description: "Gustaw's personal website",
+  metadataBase: new URL("https://gustaw.ru"),
+
+  title: "Густав — самый важный кот в галактике",
+  description:
+    "Личная галерея Густава — фотографии, истории и немного космического величия.",
+
+  openGraph: {
+    type: "website",
+    locale: "ru_RU",
+    url: "https://gustaw.ru",
+    siteName: "Густав",
+    title: "Густав — самый важный кот в галактике",
+    description:
+      "Личная галерея Густава — фотографии, истории и немного космического величия.",
+    images: [
+      {
+        url: "/images/gustaw-social-preview-v1.png",
+        alt: "Густав — чёрный кот с золотыми глазами",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Густав — самый важный кот в галактике",
+    description:
+      "Личная галерея Густава — фотографии, истории и немного космического величия.",
+    images: ["/images/gustaw-social-preview-v1.png"],
+  },
 };
 
 export default function RootLayout({
@@ -24,9 +51,9 @@ export default function RootLayout({
     <html lang="en" className={orbitron.variable}>
       <body>
         <AuthProvider>
-        <QueryProvider>
-          <Background>{children}</Background>
-        </QueryProvider>
+          <QueryProvider>
+            <Background>{children}</Background>
+          </QueryProvider>
         </AuthProvider>
       </body>
     </html>
