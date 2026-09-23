@@ -13,21 +13,21 @@ const orbitron = Orbitron({
 export const metadata: Metadata = {
   metadataBase: new URL("https://gustaw.ru"),
 
-  title: "Густав — самый важный кот в галактике",
+  title: "Густав. Великий, пушистый, космический",
   description:
-    "Личная галерея Густава — фотографии, истории и немного космического величия.",
+    "Личная галерея Густава — фотографии, история и немного космического величия.",
 
   openGraph: {
     type: "website",
     locale: "ru_RU",
     url: "https://gustaw.ru",
     siteName: "Густав",
-    title: "Густав — самый важный кот в галактике",
+    title: "Густав. Великий, пушистый, космический",
     description:
-      "Личная галерея Густава — фотографии, истории и немного космического величия.",
+      "Личная галерея Густава — фотографии, история и немного космического величия.",
     images: [
       {
-        url: "/images/gustaw-social-preview-v1.png",
+        url: "/images/gustaw-social-preview-v2.png",
         alt: "Густав — чёрный кот с золотыми глазами",
       },
     ],
@@ -35,10 +35,10 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Густав — самый важный кот в галактике",
+    title: "Густав. Великий, пушистый, космический",
     description:
-      "Личная галерея Густава — фотографии, истории и немного космического величия.",
-    images: ["/images/gustaw-social-preview-v1.png"],
+      "Личная галерея Густава — фотографии, история и немного космического величия.",
+    images: ["/images/gustaw-social-preview-v2.png"],
   },
 };
 

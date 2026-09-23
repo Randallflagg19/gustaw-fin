@@ -1,31 +1,9 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 interface BackgroundProps {
   children: React.ReactNode;
   className?: string;
 }
 
 export function Background({ children, className = "" }: BackgroundProps) {
-  const [showContent, setShowContent] = useState(false);
-
-  useEffect(() => {
-    const img = new window.Image();
-    img.src = "/images/cosmos-bg.png";
-    img.onload = () => {
-      setTimeout(() => setShowContent(true), 100);
-    };
-  }, []);
-
-  if (!showContent) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-black">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-white border-t-transparent" />
-      </div>
-    );
-  }
-
   return (
     <div className={`relative min-h-screen overflow-hidden ${className}`}>
       <div
