@@ -13,14 +13,14 @@ export function GalleryGrid({
   return (
     <ImageGrid
       images={images}
-      getImage={(imageData, index) => (
+      getImage={(imageData) => (
         <CloudinaryImage
           key={imageData.publicId}
           imageData={imageData}
           width="400"
           height="500"
           alt="Gallery image"
-          priority={index < 6}
+          sizes="(min-width: 1200px) 368px, (min-width: 1024px) calc((100vw - 80px) / 3), (min-width: 640px) calc((100vw - 52px) / 2), calc(100vw - 32px)"
         />
       )}
     />

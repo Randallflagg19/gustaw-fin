@@ -37,7 +37,7 @@ export const HeaderClient = ({ userFromServer }: Props) => {
     <header className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-6">
       <div className="flex flex-col gap-6">
         <h1
-          className="max-w-5xl text-4xl font-medium leading-tight text-[#F4E9D2] sm:text-5xl md:text-6xl"
+          className="max-w-5xl text-3xl font-medium leading-tight text-[#F4E9D2] sm:text-5xl md:text-6xl"
           style={{
             ...editorialHeadingFont,
             textShadow: "0 2px 16px rgba(0,0,0,0.55)",
@@ -87,7 +87,7 @@ export const HeaderClient = ({ userFromServer }: Props) => {
           alt="Густав в космической атмосфере"
           width={1400}
           height={900}
-          priority
+          sizes="(min-width: 1200px) 1152px, calc(100vw - 32px)"
           className="h-auto w-full object-cover"
         />
       </div>
