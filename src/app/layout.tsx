@@ -48,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={orbitron.variable}>
+    <html lang="ru" className={orbitron.variable}>
       <body>
         <AuthProvider>
           <QueryProvider>

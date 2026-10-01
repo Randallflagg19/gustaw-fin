@@ -4,6 +4,9 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Условия использования — Gustaw",
   description: "Условия использования сайта Gustaw.ru",
+  alternates: {
+    canonical: "/terms",
+  },
 };
 
 export default function TermsPage() {
@@ -251,4 +254,3 @@ export default function TermsPage() {
     </div>
   );
 }
-

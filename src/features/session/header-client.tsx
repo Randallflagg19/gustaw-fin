@@ -55,7 +55,7 @@ export const HeaderClient = ({ userFromServer }: Props) => {
               className={cn(
                 "rounded-full border border-[#d8b06a] bg-[#f1cf83] px-5 py-3 text-black hover:bg-[#f5d892]",
               )}
-              aria-label="Login"
+              aria-label="Войти в культ"
             >
               <span className="inline-flex items-center gap-2 uppercase tracking-[0.18em]">
                 <PawPrint className="h-4 w-4" />
@@ -70,7 +70,7 @@ export const HeaderClient = ({ userFromServer }: Props) => {
             className={cn(
               "rounded-full border border-[#a8844d] bg-black/20 px-5 py-3 text-[#f3d89b] hover:bg-black/35",
             )}
-            aria-label="Записаться на прием"
+            aria-label="Записаться на аудиенцию"
             title="Записаться погладить кота - 1000₽"
           >
             <span className="inline-flex items-center gap-2 uppercase tracking-[0.18em]">
@@ -89,6 +89,7 @@ export const HeaderClient = ({ userFromServer }: Props) => {
           height={900}
           sizes="(min-width: 1200px) 1152px, calc(100vw - 32px)"
           priority
+          fetchPriority="high"
           className="h-auto w-full object-cover"
         />
       </div>

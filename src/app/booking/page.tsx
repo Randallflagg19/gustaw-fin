@@ -4,6 +4,15 @@ import { cookies } from "next/headers";
 import { authOptions } from "@/shared/config/auth";
 import { sessionService } from "@/entities/user/server";
 import { BookingForm } from "@/features/booking/components/booking-form";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Запись на аудиенцию — Густав",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function BookingPage() {
   const nextAuthSession = await getServerSession(authOptions);

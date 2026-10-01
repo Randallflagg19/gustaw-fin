@@ -1,5 +1,12 @@
 import { Gallery } from "@/features/gallery";
 import Header from "@/features/session/header";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export const dynamic = "force-dynamic";
 

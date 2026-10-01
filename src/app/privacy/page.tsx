@@ -4,6 +4,9 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Политика конфиденциальности — Gustaw",
   description: "Политика конфиденциальности сайта Gustaw.ru",
+  alternates: {
+    canonical: "/privacy",
+  },
 };
 
 export default function PrivacyPage() {
