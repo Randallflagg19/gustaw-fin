@@ -13,7 +13,7 @@ const orbitron = Orbitron({
 export const metadata: Metadata = {
   metadataBase: new URL("https://gustaw.ru"),
 
-  title: "Густав. Великий, пушистый, космический",
+  title: "Густав. Кот и космос",
   description:
     "Личная галерея Густава — фотографии, история и немного космического величия.",
 
