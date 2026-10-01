@@ -88,6 +88,7 @@ export const HeaderClient = ({ userFromServer }: Props) => {
           width={1400}
           height={900}
           sizes="(min-width: 1200px) 1152px, calc(100vw - 32px)"
+          priority
           className="h-auto w-full object-cover"
         />
       </div>
