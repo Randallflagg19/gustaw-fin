@@ -24,9 +24,7 @@ export const HeaderClient = ({ userFromServer }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (userFromServer) {
-      setUser(userFromServer);
-    }
+    setUser(userFromServer);
   }, [userFromServer, setUser]);
 
   const handleBookingClick = () => {
