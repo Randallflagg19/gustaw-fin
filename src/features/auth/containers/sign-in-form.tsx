@@ -15,11 +15,14 @@ import { GoogleSignInButton } from "@/features/auth/ui/google-signin-button";
 import { GitHubSignInButton } from "@/features/auth/ui/github-signin-button";
 import { SignOutButton } from "@/features/auth/ui/sign-out-button";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
+
 export function SignInForm() {
   const setUser = useUserStore((state) => state.setUser);
   const currentUser = useUserStore((state) => state.user);
   const { data: session } = useSession();
   const isLoggedIn = Boolean(session?.user || currentUser);
+  const [login, setLogin] = useState("");
 
   const wrappedSignIn = async (state: unknown, formData: FormData) => {
     const result = await signInAction(state, formData);
@@ -36,12 +39,35 @@ export function SignInForm() {
     right(undefined),
   );
 
+  const handleFieldKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
+    if (
+      event.key !== "Enter" ||
+      event.nativeEvent.isComposing ||
+      isPending ||
+      isLoggedIn
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    event.currentTarget.form?.requestSubmit();
+  };
+
   return (
     <AuthFormLayout
       title="Вход в аккаунт"
       description="Добро пожаловать"
       action={action}
-      fields={<AuthFields />}
+      className="h-[49rem]"
+      fields={
+        <AuthFields
+          loginValue={login}
+          onLoginChange={(event) => setLogin(event.target.value)}
+          onFieldKeyDown={handleFieldKeyDown}
+        />
+      }
       actions={
         <div className="space-y-4">
           <SubmitButton isPending={isPending || isLoggedIn}>Войти</SubmitButton>
@@ -60,7 +86,9 @@ export function SignInForm() {
           <div className="space-y-3">
             <GoogleSignInButton />
             <GitHubSignInButton />
-            {isLoggedIn ? <SignOutButton /> : null}
+            <div className="min-h-12">
+              {isLoggedIn ? <SignOutButton /> : null}
+            </div>
           </div>
         </div>
       }

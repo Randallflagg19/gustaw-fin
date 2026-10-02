@@ -28,7 +28,7 @@ export function SignUpForm() {
       title="Регистрация"
       description="Создайте аккаунт"
       action={action}
-      fields={<AuthFields />}
+      fields={<AuthFields passwordAutoComplete="new-password" />}
       actions={
         <div className="space-y-4">
           <SubmitButton isPending={isPending}>Зарегистрироваться</SubmitButton>

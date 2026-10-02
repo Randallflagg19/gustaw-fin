@@ -22,9 +22,7 @@ export function SignOutButton() {
         // ignore errors from legacy session removal
       }
 
-      await signOut({ redirect: false, callbackUrl: "/" });
-
-      router.push("/");
+      await signOut({ redirect: false });
       router.refresh();
     });
   };

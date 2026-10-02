@@ -1,6 +1,7 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/ui/card";
 import React from "react";
 import { editorialHeadingFont } from "@/shared/ui/typography";
+import { cn } from "@/shared/lib/css";
 
 export function AuthFormLayout({
   actions,
@@ -10,6 +11,7 @@ export function AuthFormLayout({
   link,
   action,
   error,
+  className,
 }: {
   title: string;
   description: string;
@@ -18,9 +20,15 @@ export function AuthFormLayout({
   link: React.ReactNode;
   error: React.ReactNode;
   action: (formData: FormData) => void;
+  className?: string;
 }) {
   return (
-    <Card className="w-full max-w-md rounded-[2rem] border border-[#b88d4f]/40 bg-[#120d0a]/85 py-0 text-white shadow-[0_0_50px_rgba(0,0,0,0.28)] backdrop-blur-md">
+    <Card
+      className={cn(
+        "w-full max-w-md rounded-[2rem] border border-[#b88d4f]/40 bg-[#120d0a]/85 py-0 text-white shadow-[0_0_50px_rgba(0,0,0,0.28)] backdrop-blur-md",
+        className,
+      )}
+    >
       <CardHeader className="px-8 pb-4 pt-8 text-center">
         <p className="mb-3 text-[0.72rem] uppercase tracking-[0.38em] text-[#d7b26d]">
           Celestial Access
