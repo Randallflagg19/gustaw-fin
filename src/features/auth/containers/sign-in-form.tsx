@@ -57,10 +57,8 @@ export function SignInForm() {
 
   return (
     <AuthFormLayout
-      title="Вход в аккаунт"
-      description="Добро пожаловать"
+      title="Войти в культ"
       action={action}
-      className="h-[49rem]"
       fields={
         <AuthFields
           loginValue={login}
@@ -69,7 +67,7 @@ export function SignInForm() {
         />
       }
       actions={
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <SubmitButton isPending={isPending || isLoggedIn}>Войти</SubmitButton>
 
           <div className="relative py-1">
@@ -83,7 +81,7 @@ export function SignInForm() {
             </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2.5 sm:space-y-3">
             <GoogleSignInButton />
             <GitHubSignInButton />
             <div className="min-h-12">
@@ -95,8 +93,8 @@ export function SignInForm() {
       error={<ErrorMessage error={formState} />}
       link={
         <AuthLink
-          text="Еще не зарегестрированы?"
-          linkText="Регистрация"
+          text="Впервые здесь?"
+          linkText="Зарегистрироваться"
           url="/sign-up"
         />
       }

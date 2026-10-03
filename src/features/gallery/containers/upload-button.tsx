@@ -52,9 +52,14 @@ export const UploadButton = (): JSX.Element => {
       }}
     >
       {({ open }) => (
-        <Button onClick={() => open()}>
+        <Button
+          type="button"
+          variant="cosmicOutline"
+          size="compact"
+          onClick={() => open()}
+        >
           <UploadIcon />
-          Upload
+          Добавить фото
         </Button>
       )}
     </CldUploadWidget>

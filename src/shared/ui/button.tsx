@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/lib/css";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,box-shadow,opacity] duration-200 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:ring-[3px] focus-visible:ring-[var(--cosmos-gold)]/35 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
   {
     variants: {
       variant: {
@@ -20,12 +20,21 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        cosmicPrimary:
+          "rounded-full border border-[var(--cosmos-gold)] bg-[var(--cosmos-gold)] text-[var(--cosmos-ink)] shadow-[var(--shadow-gold)] hover:border-[var(--cosmos-gold-bright)] hover:bg-[var(--cosmos-gold-bright)]",
+        cosmicOutline:
+          "rounded-full border border-[color-mix(in_srgb,var(--cosmos-border)_75%,transparent)] bg-[color-mix(in_srgb,var(--cosmos-surface)_82%,transparent)] text-[var(--cosmos-ivory)] hover:border-[var(--cosmos-gold)] hover:bg-[var(--cosmos-surface-raised)] hover:shadow-[var(--shadow-gold)]",
+        cosmicNavigation:
+          "rounded-full border border-[color-mix(in_srgb,var(--cosmos-border)_72%,transparent)] bg-black/20 text-[var(--cosmos-ivory)] hover:border-[var(--cosmos-gold)] hover:bg-[color-mix(in_srgb,var(--cosmos-gold)_10%,transparent)] hover:shadow-[var(--shadow-gold)]",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
         icon: "size-9",
+        control: "h-12 rounded-full px-6 has-[>svg]:px-5",
+        hero: "h-14 rounded-full px-7 has-[>svg]:px-6",
+        compact: "h-11 rounded-full px-4 has-[>svg]:px-3.5",
       },
     },
     defaultVariants: {

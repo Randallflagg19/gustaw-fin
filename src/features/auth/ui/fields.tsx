@@ -27,10 +27,10 @@ export function AuthFields({
 
   return (
     <>
-      <div className="space-y-2.5">
+      <div className="space-y-2 sm:space-y-2.5">
         <Label
           htmlFor={loginId}
-          className="text-sm uppercase tracking-[0.18em] text-[#f3d89b]"
+          className="text-xs uppercase tracking-[0.16em] text-[#f3d89b] sm:text-sm sm:tracking-[0.18em]"
         >
           Логин
         </Label>
@@ -43,15 +43,17 @@ export function AuthFields({
           onKeyDown={onFieldKeyDown}
           autoComplete="username"
           placeholder="Введите логин"
+          minLength={3}
           required
-          className="h-12 rounded-2xl border-[#8b6a3e]/55 bg-[#120d0a]/85 px-4 text-[#f5ead5] placeholder:text-[#9f8a68] focus-visible:border-[#d7b26d] focus-visible:ring-[#d7b26d]/20"
+          variant="cosmic"
+          className="h-11 sm:h-12"
         />
       </div>
 
-      <div className="space-y-2.5">
+      <div className="space-y-2 sm:space-y-2.5">
         <Label
           htmlFor={passwordId}
-          className="text-sm uppercase tracking-[0.18em] text-[#f3d89b]"
+          className="text-xs uppercase tracking-[0.16em] text-[#f3d89b] sm:text-sm sm:tracking-[0.18em]"
         >
           Пароль
         </Label>
@@ -62,8 +64,11 @@ export function AuthFields({
             type={isPasswordVisible ? "text" : "password"}
             onKeyDown={onFieldKeyDown}
             autoComplete={passwordAutoComplete}
+            placeholder="••••••••"
+            minLength={3}
             required
-            className="h-12 rounded-2xl border-[#8b6a3e]/55 bg-[#120d0a]/85 px-4 pr-12 text-[#f5ead5] placeholder:text-[#9f8a68] focus-visible:border-[#d7b26d] focus-visible:ring-[#d7b26d]/20"
+            variant="cosmic"
+            className="h-11 pr-12 text-lg tracking-[0.18em] sm:h-12"
           />
           <button
             type="button"

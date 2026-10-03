@@ -25,12 +25,17 @@ export function SignUpForm() {
 
   return (
     <AuthFormLayout
-      title="Регистрация"
-      description="Создайте аккаунт"
+      title="Вступить в культ"
+      description="Создайте аккаунт, чтобы официально погладить Густава."
       action={action}
+      helper={
+        <p>
+          Логин и пароль: от 3 символов. Почта не нужна.
+        </p>
+      }
       fields={<AuthFields passwordAutoComplete="new-password" />}
       actions={
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <SubmitButton isPending={isPending}>Зарегистрироваться</SubmitButton>
 
           <div className="relative py-1">
@@ -44,10 +49,12 @@ export function SignUpForm() {
             </div>
           </div>
 
-          <div className="space-y-3">
-            <GoogleSignInButton />
-            <GitHubSignInButton />
-            {isLoggedIn ? <SignOutButton /> : null}
+          <div className="space-y-2.5 sm:space-y-3">
+            <GoogleSignInButton label="Продолжить через Google" />
+            <GitHubSignInButton label="Продолжить через GitHub" />
+            <div className="min-h-12">
+              {isLoggedIn ? <SignOutButton /> : null}
+            </div>
           </div>
         </div>
       }

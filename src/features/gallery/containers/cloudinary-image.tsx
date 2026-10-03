@@ -83,29 +83,29 @@ export function CloudinaryImage({
           onError={handleError}
         />
 
-        <div
-          className={`absolute left-3 top-3 z-30 flex items-center gap-2 rounded-full border px-3 py-2 backdrop-blur-sm transition-[border-color,box-shadow] duration-200 ${
+        <button
+          type="button"
+          onClick={handleLikeClick}
+          disabled={isLikeProcessing}
+          aria-label={
+            likeInfo.isLiked
+              ? "Убрать отметку нравится"
+              : "Отметить как понравившееся"
+          }
+          aria-pressed={likeInfo.isLiked}
+          className={`group/like absolute left-3 top-3 z-30 flex min-h-12 min-w-20 items-center justify-center gap-2 rounded-full border px-4 py-2 backdrop-blur-sm transition-[border-color,background-color,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f3d89b]/70 ${
             likeInfo.isLiked
               ? "border-[#FFAD6B]/30 bg-black/45 shadow-[0_0_18px_rgba(255,173,107,0.18)]"
               : "border-[#F4E9D2]/15 bg-black/35"
-          }`}
+          } ${isLikeProcessing ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
         >
-          <button
-            type="button"
-            onClick={handleLikeClick}
-            disabled={isLikeProcessing}
-            aria-label={
-              likeInfo.isLiked
-                ? "Убрать отметку нравится"
-                : "Отметить как понравившееся"
-            }
-            aria-pressed={likeInfo.isLiked}
-            className={`transition-transform duration-150 ease-out hover:scale-110 active:scale-90 motion-reduce:transform-none ${
+          <span
+            className={`transition-transform duration-150 ease-out group-hover/like:scale-110 group-active/like:scale-90 motion-reduce:transform-none ${
               likeInfo.isLiked ? "text-[#FFAD6B]" : "text-[#F4E9D2]"
-            } ${isLikeProcessing ? "cursor-not-allowed opacity-50" : ""}`}
+            }`}
           >
             {likeInfo.isLiked ? <FullHeart /> : <EmptyHeart />}
-          </button>
+          </span>
 
           <span
             className={`${likeCountFont.className} text-sm tracking-wide [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] ${
@@ -114,7 +114,7 @@ export function CloudinaryImage({
           >
             {likeInfo.count}
           </span>
-        </div>
+        </button>
       </div>
     </div>
   );

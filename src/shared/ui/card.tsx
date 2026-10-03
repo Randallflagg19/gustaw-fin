@@ -1,15 +1,30 @@
 import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/css";
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+const cardVariants = cva("flex flex-col gap-6 border py-6", {
+  variants: {
+    variant: {
+      default: "rounded-xl bg-card text-card-foreground shadow-sm",
+      cosmic:
+        "rounded-[var(--radius-panel)] border-[color-mix(in_srgb,var(--cosmos-border)_65%,transparent)] bg-[color-mix(in_srgb,var(--cosmos-surface)_88%,transparent)] text-[var(--cosmos-ivory)] shadow-[var(--shadow-panel)] backdrop-blur-md",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+function Card({
+  className,
+  variant,
+  ...props
+}: React.ComponentProps<"div"> & VariantProps<typeof cardVariants>) {
   return (
     <div
       data-slot="card"
-      className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
-        className,
-      )}
+      className={cn(cardVariants({ variant }), className)}
       {...props}
     />
   );
@@ -89,4 +104,5 @@ export {
   CardAction,
   CardDescription,
   CardContent,
+  cardVariants,
 };
