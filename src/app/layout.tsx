@@ -27,10 +27,10 @@ export const metadata: Metadata = {
       "Личная галерея Густава — фотографии, история и немного космического величия.",
     images: [
       {
-        url: "/images/gustaw-social-preview-v4.png",
+        url: "/images/gustaw-social-preview-v5.jpg",
         width: 1200,
         height: 630,
-        type: "image/png",
+        type: "image/jpeg",
         alt: "Густав — чёрный кот с золотыми глазами",
       },
     ],
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: "Густав. Великий, пушистый, космический",
     description:
       "Личная галерея Густава — фотографии, история и немного космического величия.",
-    images: ["/images/gustaw-social-preview-v4.png"],
+    images: ["/images/gustaw-social-preview-v5.jpg"],
   },
 };
 
